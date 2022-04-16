@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { BadRequestError, NotFoundError } from '../errors/index.js'
 import checkPermissions from './../utils/checkPermissions.js'
-import { create, find, count, limitAndSkip } from '../queries/Sensor.js'
+import { create, find, count, findOne } from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
     const { name, model, latitude, longitude, status } = req.body
@@ -32,7 +32,7 @@ const getAllSensors = async (req, res) => {
 
     //console.log(queryObject);
     let result = await find(queryObject)
-    console.log('pries sorta', result);
+    //console.log('pries sorta', result);
 
     if (sort === 'latest') {
         result = result.sort((a, b) => b.created_at - a.created_at)
@@ -43,7 +43,6 @@ const getAllSensors = async (req, res) => {
         console.log('oldest');
     }
     if (sort === 'a-z') {
-        //result = result.sort((a, b) => b.name - a.name)
         result = result.sort((a, b) => a.name.localeCompare(b.name))
         console.log('a-z');
     }
@@ -52,19 +51,13 @@ const getAllSensors = async (req, res) => {
         console.log('z-a');
     }
 
-    console.log('po sorto', result);
+    //console.log('po sorto', result);
     const page = Number(req.query.page) || 1
-    console.log(page);
     const limit = Number(req.query.limit) || 4
-    console.log(limit);
-
     const skip = (page - 1) * limit
-    console.log(skip);
+    //console.log(skip);
     let sensors = result.slice(skip, page * limit)
     //console.log(sliced);
-    //result = await limitAndSkip(queryObject, limit, skip)
-
-    //const sensors = result
 
     const totalSensors = await count(queryObject)
     //console.log(totalSensors);
@@ -73,4 +66,19 @@ const getAllSensors = async (req, res) => {
 
     res.status(StatusCodes.OK).json({ sensors, numOfPages, totalSensors })
 }
-export { createSensor, getAllSensors }
+const updateSensor = async (req, res) => {
+
+}
+const deleteSensor = async (req, res) => {
+    const { id: jobId } = req.params
+    //const job = await Job.findOne({ _id: jobId })
+    const sensor = await findOne(sensorId)
+
+    if (!sensor) {
+        throw new NotFoundError(`No device with id: ${sensorId}`)
+    }
+    checkPermissions(req.user, sensor.createdBy)
+    await sensor.remove()
+    res.status(StatusCodes.OK).json({ msg: 'Success! Device removed' })
+}
+export { createSensor, getAllSensors, updateSensor, deleteSensor }

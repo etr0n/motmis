@@ -67,27 +67,12 @@ const count = async ({ createdByUser, status, search }) => {
         console.log(error);
     }
 }
-
-const limitAndSkip = async ({ createdByUser, search, status }, limit, skip) => {
-    let res;
+const findOne = async () => {
     try {
-        if (!status && !search) {
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 LIMIT $2 OFFSET $3', [createdByUser, limit, skip])
-        }
-        if (status) {
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status= $2 LIMIT $3 OFFSET $4', [createdByUser, status, limit, skip])
-        }
-        if (search) {
-            search = "^" + search
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND sensor.name ~* $2 LIMIT $3 OFFSET $4', [createdByUser, search, limit, skip])
-        }
-        if (status && search) {
-            search = "^" + search
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND sensor.name ~* $2 AND status= $3 LIMIT $4 OFFSET $5', [createdByUser, search, status, limit, skip])
-        }
-        return res.rows
+        res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1', [createdByUser])
+        return res
     } catch (error) {
-
+        console.log(error);
     }
 }
-export { create, find, count, limitAndSkip }
+export { create, find, count, findOne }

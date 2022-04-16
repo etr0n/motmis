@@ -43,8 +43,7 @@ const SensorsContainer = () => {
                 <h5>{totalSensors} sensor{sensors.length > 1 && 's'} found</h5>
                 <Link
                     to="/add-device"
-                    className='btn edit-btn'
-                // onClick={() => setEditDevice(id)}
+                    className='btn '
                 >
                     Add device
                 </Link>

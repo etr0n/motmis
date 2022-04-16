@@ -16,16 +16,16 @@ import {
     UPDATE_USER_ERROR,
     HANDLE_CHANGE,
     CLEAR_VALUES,
-    CREATE_JOB_BEGIN,
-    CREATE_JOB_SUCCESS,
-    CREATE_JOB_ERROR,
-    GET_JOBS_BEGIN,
-    GET_JOBS_SUCCESS,
-    SET_EDIT_JOB,
-    DELETE_JOB_BEGIN,
-    EDIT_JOB_BEGIN,
-    EDIT_JOB_SUCCESS,
-    EDIT_JOB_ERROR,
+    CREATE_DEVICE_BEGIN,
+    CREATE_DEVICE_SUCCESS,
+    CREATE_DEVICE_ERROR,
+    GET_DEVICES_BEGIN,
+    GET_DEVICES_SUCCESS,
+    SET_EDIT_DEVICE,
+    DELETE_DEVICE_BEGIN,
+    EDIT_DEVICE_BEGIN,
+    EDIT_DEVICE_SUCCESS,
+    EDIT_DEVICE_ERROR,
     SHOW_STATS_BEGIN,
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
@@ -48,14 +48,15 @@ const initialState = {
     userLocation: userLocation || '',
     showSidebar: false,
     isEditing: false,
-    editJobId: '',
+    editDeviceId: '',
     position: '',
     company: '',
-    jobLocation: userLocation || '',
-    jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
-    jobType: 'full-time',
     statusOptions: ["active", "offline"],
-    status: 'pending',
+    status: 'active',
+    name: '',
+    model: '',
+    latitude: '',
+    longitude: '',
     sensors: [],
     totalSensors: 0,
     numOfPages: 1,
@@ -202,25 +203,25 @@ const AppProvider = ({ children }) => {
     }
     const createDevice = async () => {
         dispatch({
-            type: CREATE_JOB_BEGIN
+            type: CREATE_DEVICE_BEGIN
         })
 
         try {
-            const { position, company, jobLocation, jobType, status } = state
+            const { name, model, latitude, longitude, status } = state
 
             await authFetch.post('/devices', {
-                company,
-                position,
-                jobLocation,
-                jobType,
+                name,
+                model,
+                latitude,
+                longitude,
                 status,
             })
-            dispatch({ type: CREATE_JOB_SUCCESS })
+            dispatch({ type: CREATE_DEVICE_SUCCESS })
             dispatch({ type: CLEAR_VALUES })
         } catch (error) {
             if (error.response.status === 401) return
             dispatch({
-                type: CREATE_JOB_ERROR,
+                type: CREATE_DEVICE_ERROR,
                 payload: { msg: error.response.data.msg }
             })
         }
@@ -234,12 +235,12 @@ const AppProvider = ({ children }) => {
         if (searchName) {
             url = url + `&search=${searchName}`
         }
-        dispatch({ type: GET_JOBS_BEGIN })
+        dispatch({ type: GET_DEVICES_BEGIN })
         try {
             const { data } = await authFetch(url)
             const { sensors, numOfPages, totalSensors } = data
             dispatch({
-                type: GET_JOBS_SUCCESS,
+                type: GET_DEVICES_SUCCESS,
                 payload: {
                     sensors, numOfPages, totalSensors
                 }
@@ -250,48 +251,48 @@ const AppProvider = ({ children }) => {
             //logoutUser()
         }
         //delay on alert
-        //if u ad job in add job section and quickly switch to all jobs
-        //an alert is still displayed (new job created or smth like that)
+        //if u ad DEVICE in add DEVICE section and quickly switch to all DEVICEs
+        //an alert is still displayed (new DEVICE created or smth like that)
         clearAlert()
     }
 
     // for testing
     // useEffect(() => {
-    //     getJobs()
+    //     getDEVICEs()
     // }, [])
 
     const setEditDevice = (id) => {
-        // console.log(`set edit job : ${id}`);
-        dispatch({ type: SET_EDIT_JOB, payload: { id } })
+        // console.log(`set edit DEVICE : ${id}`);
+        dispatch({ type: SET_EDIT_DEVICE, payload: { id } })
     }
 
-    const editJob = async () => {
-        //console.log('edit job');
-        dispatch({ type: EDIT_JOB_BEGIN })
+    const editDEVICE = async () => {
+        //console.log('edit DEVICE');
+        dispatch({ type: EDIT_DEVICE_BEGIN })
         try {
-            const { position, company, jobLocation, jobType, status } = state
-            await authFetch.patch(`/devices/${state.editJobId}`, {
+            const { position, company, DEVICELocation, DEVICEType, status } = state
+            await authFetch.patch(`/devices/${state.editDEVICEId}`, {
                 position,
                 company,
-                jobLocation,
-                jobType,
+                DEVICELocation,
+                DEVICEType,
                 status
             })
-            dispatch({ type: EDIT_JOB_SUCCESS }) //alert
+            dispatch({ type: EDIT_DEVICE_SUCCESS }) //alert
             dispatch({ type: CLEAR_VALUES })
         } catch (error) {
             if (error.response === 401) return
             dispatch({
-                type: EDIT_JOB_ERROR, payload: { msg: error.response.data.msg }
+                type: EDIT_DEVICE_ERROR, payload: { msg: error.response.data.msg }
             })
         }
         clearAlert()
     }
-    const deleteDevice = async (jobId) => {
-        //console.log(`delete job : ${id}`);
-        dispatch({ type: DELETE_JOB_BEGIN })
+    const deleteDevice = async (DEVICEId) => {
+        //console.log(`delete DEVICE : ${id}`);
+        dispatch({ type: DELETE_DEVICE_BEGIN })
         try {
-            await authFetch.delete(`/sensors/${jobId}`)
+            await authFetch.delete(`/sensors/${DEVICEId}`)
             getSensors()
         } catch (error) {
             console.log(error.response);
@@ -337,7 +338,7 @@ const AppProvider = ({ children }) => {
         getSensors,
         setEditDevice,
         deleteDevice,
-        editJob,
+        editDEVICE,
         showStats,
         clearFilters,
         changePage,

@@ -6,7 +6,8 @@ const Device = ({
     id_sensor: id,
     model,
     name,
-    location,
+    latitude,
+    longitude,
     created_at,
     status
 }) => {
@@ -24,7 +25,7 @@ const Device = ({
                 </div>
             </td>
             <td>{date}</td>
-            <td>{location}</td>
+            <td>{latitude}  {latitude}</td>
             <td><Link
                 to="/add-device"
                 className='btn edit-btn'

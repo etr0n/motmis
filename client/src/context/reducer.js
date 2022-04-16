@@ -14,16 +14,16 @@ import {
     UPDATE_USER_ERROR,
     HANDLE_CHANGE,
     CLEAR_VALUES,
-    CREATE_JOB_BEGIN,
-    CREATE_JOB_SUCCESS,
-    CREATE_JOB_ERROR,
-    GET_JOBS_BEGIN,
-    GET_JOBS_SUCCESS,
-    SET_EDIT_JOB,
-    DELETE_JOB_BEGIN,
-    EDIT_JOB_BEGIN,
-    EDIT_JOB_SUCCESS,
-    EDIT_JOB_ERROR,
+    CREATE_DEVICE_BEGIN,
+    CREATE_DEVICE_SUCCESS,
+    CREATE_DEVICE_ERROR,
+    GET_DEVICES_BEGIN,
+    GET_DEVICES_SUCCESS,
+    SET_EDIT_DEVICE,
+    DELETE_DEVICE_BEGIN,
+    EDIT_DEVICE_BEGIN,
+    EDIT_DEVICE_SUCCESS,
+    EDIT_DEVICE_ERROR,
     SHOW_STATS_BEGIN,
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
@@ -62,7 +62,6 @@ const reducer = (state, action) => {
             token: action.payload.token,
             user: action.payload.user,
             userLocation: action.payload.location,
-            jobLocation: action.payload.location,
             showAlert: true,
             alertType: 'success',
             alertText: 'User Created! Redirecting...'
@@ -90,7 +89,6 @@ const reducer = (state, action) => {
             token: action.payload.token,
             user: action.payload.user,
             userLocation: action.payload.location,
-            jobLocation: action.payload.location,
             showAlert: true,
             alertType: 'success',
             alertText: 'Login Successful! Redirecting...'
@@ -117,7 +115,6 @@ const reducer = (state, action) => {
             user: null,
             token: null,
             userLocation: "",
-            jobLocation: "",
         }
     }
     if (action.type === UPDATE_USER_BEGIN) {
@@ -133,7 +130,6 @@ const reducer = (state, action) => {
             token: action.payload.token,
             user: action.payload.user,
             userLocation: action.payload.location,
-            jobLocation: action.payload.location,
             showAlert: true,
             alertType: 'success',
             alertText: 'User Profile Updated!'
@@ -159,34 +155,34 @@ const reducer = (state, action) => {
 
         const initialState = {
             isEditing: false,
-            editJobId: '',
-            position: '',
-            company: '',
-            jobLocation: state.userLocation,
-            jobType: 'full-time',
-            status: 'pending',
+            editDeviceId: '',
+            name: '',
+            model: '',
+            latitude: '',
+            longitude: '',
+            status: 'active',
         }
         return {
             ...state,
             ...initialState,
         }
     }
-    if (action.type === CREATE_JOB_BEGIN) {
+    if (action.type === CREATE_DEVICE_BEGIN) {
         return {
             ...state,
             isLoading: true,
         }
     }
-    if (action.type === CREATE_JOB_SUCCESS) {
+    if (action.type === CREATE_DEVICE_SUCCESS) {
         return {
             ...state,
             isLoading: false,
             showAlert: true,
             alertType: "success",
-            alertText: "New Job Created!",
+            alertText: "New Device Created!",
         }
     }
-    if (action.type === CREATE_JOB_ERROR) {
+    if (action.type === CREATE_DEVICE_ERROR) {
         return {
             ...state,
             isLoading: false,
@@ -195,14 +191,14 @@ const reducer = (state, action) => {
             alertText: action.payload.msg,
         }
     }
-    if (action.type === GET_JOBS_BEGIN) {
+    if (action.type === GET_DEVICES_BEGIN) {
         return {
             ...state,
             isLoading: true,
             showAlert: false
         }
     }
-    if (action.type === GET_JOBS_SUCCESS) {
+    if (action.type === GET_DEVICES_SUCCESS) {
         return {
             ...state,
             isLoading: false,
@@ -211,42 +207,42 @@ const reducer = (state, action) => {
             numOfPages: action.payload.numOfPages,
         }
     }
-    if (action.type === SET_EDIT_JOB) {
-        const job = state.jobs.find((job) => job._id === action.payload.id)
-        const { _id, position, company, jobLocation, jobType, status } = job
+    if (action.type === SET_EDIT_DEVICE) {
+        const device = state.sensors.find((device) => device._id === action.payload.id)
+        const { _id, position, company, DEVICELocation, DEVICEType, status } = device
         return {
             ...state,
-            isEditing: true, //gonna flip values instead of add job to edit job
-            editJobId: _id,
+            isEditing: true, //gonna flip values instead of add DEVICE to edit DEVICE
+            editDeviceId: _id,
             position,
             company,
-            jobLocation,
-            jobType,
+            DEVICELocation,
+            DEVICEType,
             status
         }
     }
-    if (action.type === DELETE_JOB_BEGIN) {
+    if (action.type === DELETE_DEVICE_BEGIN) {
         return {
             ...state,
             isLoading: true,
         }
     }
-    if (action.type === EDIT_JOB_BEGIN) {
+    if (action.type === EDIT_DEVICE_BEGIN) {
         return {
             ...state,
             isLoading: true
         }
     }
-    if (action.type === EDIT_JOB_SUCCESS) {
+    if (action.type === EDIT_DEVICE_SUCCESS) {
         return {
             ...state,
             isLoading: false,
             showAlert: true,
             alertType: 'success',
-            alertText: 'Job updated!'
+            alertText: 'DEVICE updated!'
         }
     }
-    if (action.type === EDIT_JOB_ERROR) {
+    if (action.type === EDIT_DEVICE_ERROR) {
         return {
             ...state,
             isLoading: false,

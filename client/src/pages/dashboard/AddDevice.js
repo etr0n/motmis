@@ -1,18 +1,18 @@
 import { FormRow, Alert, FormRowSelect } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
+import { Link } from "react-router-dom";
 
-const AddJob = () => {
+const AddDevice = () => {
     const {
         isLoading,
         isEditing,
         showAlert,
         displayAlert,
-        position,
-        company,
-        jobLocation,
-        jobType,
-        jobTypeOptions,
+        name,
+        model,
+        latitude,
+        longitude,
         status,
         statusOptions,
         handleChange,
@@ -23,7 +23,7 @@ const AddJob = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (!position || !company || !jobLocation) {
+        if (!name || !model || !latitude || !longitude) {
             displayAlert()
             return
         }
@@ -33,7 +33,7 @@ const AddJob = () => {
         }
         createDevice()
     }
-    const handleJobInput = (e) => {
+    const handleDeviceInput = (e) => {
         const name = e.target.name
         const value = e.target.value
         handleChange({ name, value })
@@ -41,41 +41,46 @@ const AddJob = () => {
 
     return (
         <Wrapper>
+            <Link to="/"
+                className='btn edit-btn'>
+                Back
+            </Link>
             <form className="form">
-                <h3>{isEditing ? 'edit job' : 'add job'}</h3>
+                <h3>{isEditing ? 'edit device' : 'add device'}</h3>
                 {showAlert && <Alert />}
                 <div className="form-center">
                     <FormRow
                         type='text'
-                        name="position"
-                        value={position}
-                        handleChange={handleJobInput}
+                        name="name"
+                        value={name}
+                        handleChange={handleDeviceInput}
                     />
                     <FormRow
                         type='text'
-                        name="company"
-                        value={company}
-                        handleChange={handleJobInput}
+                        name="model"
+                        value={model}
+                        handleChange={handleDeviceInput}
                     />
                     <FormRow
                         type='text'
-                        labelText="Job location"
-                        name="jobLocation"
-                        value={jobLocation}
-                        handleChange={handleJobInput}
+                        //labelText="Job location"
+                        name="latitude"
+                        value={latitude}
+                        handleChange={handleDeviceInput}
+                    />
+                    <FormRow
+                        type='text'
+                        //labelText="Job location"
+                        name="longitude"
+                        value={longitude}
+                        handleChange={handleDeviceInput}
                     />
                     {/*job type and job status*/}
                     <FormRowSelect
                         name="status"
                         value={status}
-                        handleChange={handleJobInput}
+                        handleChange={handleDeviceInput}
                         list={statusOptions} />
-                    <FormRowSelect
-                        labelText="Job type"
-                        name="jobType"
-                        value={jobType}
-                        handleChange={handleJobInput}
-                        list={jobTypeOptions} />
                     <div className="btn-container">
                         <button
                             type='submit'
@@ -101,4 +106,4 @@ const AddJob = () => {
     )
 }
 
-export default AddJob
+export default AddDevice
