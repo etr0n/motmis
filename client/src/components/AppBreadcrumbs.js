@@ -29,20 +29,16 @@ export default function AppBreadcrumbs() {
     let location = useLocation();
     let currentRoutes = []
     currentRoutes = location.pathname !== '/' ? location.pathname.split('/') : [];
-    console.log(currentRoutes);
+    //console.log(currentRoutes);
 
     if (currentRoutes.length === 0) {
         console.log('hello home');
         return (
             <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: 15 }}>
-                {/* <StyledBreadcrumb
-                    component="a"
-                    href="#"
-                    label="Home"
-                /> */}
                 <Link color="inherit" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                     Devices
                 </Link>
+                <Typography color="textPrimary">List</Typography>
             </Breadcrumbs>
         )
     }
@@ -56,7 +52,7 @@ export default function AppBreadcrumbs() {
                 </Link>
                 {
                     currentRoutes.length === 1
-                        ? <Typography color="textPrimary">{currentRoutes[0]}</Typography>
+                        ? <Typography color="textPrimary">{currentRoutes[0].charAt(0).toUpperCase() + currentRoutes[0].slice(1)}</Typography>
                         : currentRoutes.map((route, index) => {
                             return (index !== currentRoutes.length - 1
                                 ? <Link key={index} color="inherit" style={{ cursor: 'pointer' }} onClick={() => {
