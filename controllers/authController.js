@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 const register = async (req, res) => { //next passes to next middleware
     const { name, lastName, email, password, location } = req.body
 
-    if (!name || !email || !password) {
+    if (!name || !lastName || !location || !email || !password) {
         throw new BadRequestError('please provide all values')
     }
 
@@ -29,7 +29,6 @@ const register = async (req, res) => { //next passes to next middleware
             name: user.name
         },
         token,
-        location: user.location,
     })
 }
 
@@ -76,7 +75,7 @@ const updateUser = async (req, res) => {
 
     const token = createJWT(req.user.userId)
 
-    res.status(StatusCodes.OK).json({ user, token, location: user.location })
+    res.status(StatusCodes.OK).json({ user, token })
 }
 
 const hash = async (password) => {

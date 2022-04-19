@@ -1,6 +1,7 @@
 import {
     CLEAR_ALERT,
     DISPLAY_ALERT,
+    CHANGE_ISMEMBER_STATE,
     REGISTER_USER_BEGIN,
     REGISTER_USER_SUCCESS,
     REGISTER_USER_ERROR,
@@ -49,6 +50,13 @@ const reducer = (state, action) => {
             alertText: '',
         }
     }
+    if (action.type === CHANGE_ISMEMBER_STATE) {
+        return {
+            ...state,
+            isMember: action.payload.isMember
+        }
+
+    }
     if (action.type === REGISTER_USER_BEGIN) {
         return {
             ...state,
@@ -61,7 +69,6 @@ const reducer = (state, action) => {
             isLoading: false,
             token: action.payload.token,
             user: action.payload.user,
-            userLocation: action.payload.location,
             showAlert: true,
             alertType: 'success',
             alertText: 'User Created! Redirecting...'
@@ -88,7 +95,6 @@ const reducer = (state, action) => {
             isLoading: false,
             token: action.payload.token,
             user: action.payload.user,
-            userLocation: action.payload.location,
             showAlert: true,
             alertType: 'success',
             alertText: 'Login Successful! Redirecting...'
@@ -129,7 +135,6 @@ const reducer = (state, action) => {
             isLoading: false,
             token: action.payload.token,
             user: action.payload.user,
-            userLocation: action.payload.location,
             showAlert: true,
             alertType: 'success',
             alertText: 'User Profile Updated!'

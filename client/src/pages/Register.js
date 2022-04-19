@@ -3,21 +3,20 @@ import { Logo, FormRow, Alert } from '../components'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { useAppContext } from '../context/appContext'
 import { useNavigate } from 'react-router-dom'
-import NavbarWrapper from '../assets/wrappers/Navbar'
-import { Link } from 'react-router-dom'
-import Menu from './../components/Menu';
+import Menu from './../components/Menu'
 
 const initialState = {
     name: '',
+    lastName: '',
+    location: '',
     email: '',
     password: '',
-    isMember: true,
 }
 
 const Register = () => {
     const [values, setValues] = useState(initialState)
     const navigate = useNavigate()
-    const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } = useAppContext()
+    const { user, isLoading, showAlert, displayAlert, registerUser, loginUser, isMember, toggleIsMember } = useAppContext()
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -25,12 +24,12 @@ const Register = () => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        const { name, email, password, isMember } = values
-        if (!email || !password || (!isMember && !name)) {
+        const { name, email, password, lastName, location } = values
+        if (!email || !password || (!isMember && !name && !lastName && !location)) {
             displayAlert()
             return
         }
-        const currentUser = { name, email, password }
+        const currentUser = { name, email, password, lastName, location }
         if (isMember) {
             loginUser(currentUser)
         }
@@ -49,7 +48,8 @@ const Register = () => {
 
 
     const toggleMember = () => {
-        setValues({ ...values, isMember: !values.isMember })
+        setValues({ ...values })
+        toggleIsMember(!isMember)
     }
     return (
         <>
@@ -57,17 +57,31 @@ const Register = () => {
             <Wrapper className='full-page'>
                 <form className='form' onSubmit={onSubmit}>
                     <Logo />
-                    <h3>{values.isMember ? "Login" : "Register"}</h3>
+                    <h3>{isMember ? "Login" : "Register"}</h3>
                     {showAlert && <Alert />}
-                    {/* name input */}
-                    {!values.isMember && (
+                    {!isMember && (
                         < FormRow
                             type='text'
                             name='name'
                             values={values.name}
                             handleChange={handleChange} />
                     )}
-
+                    {!isMember && (
+                        < FormRow
+                            labelText='Last Name'
+                            type='text'
+                            name='lastName'
+                            values={values.lastName}
+                            handleChange={handleChange} />
+                    )}
+                    {!isMember && (
+                        < FormRow
+                            labelText='Country'
+                            type='text'
+                            name='location'
+                            values={values.location}
+                            handleChange={handleChange} />
+                    )}
                     {/* email input */}
                     <FormRow
                         type='email'
@@ -85,9 +99,9 @@ const Register = () => {
                         Submit
                     </button>
                     <p>
-                        {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+                        {isMember ? 'Not a member yet?' : 'Already a member?'}
                         <button type='button' onClick={toggleMember} className='member-btn'>
-                            {!values.isMember ? "Login" : "Register"}
+                            {!isMember ? "Login" : "Register"}
                         </button>
                     </p>
                 </form>

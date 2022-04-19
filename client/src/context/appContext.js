@@ -3,6 +3,7 @@ import reducer from "./reducer";
 import {
     CLEAR_ALERT,
     DISPLAY_ALERT,
+    CHANGE_ISMEMBER_STATE,
     REGISTER_USER_BEGIN,
     REGISTER_USER_SUCCESS,
     REGISTER_USER_ERROR,
@@ -36,16 +37,15 @@ import axios from "axios"
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
-const userLocation = localStorage.getItem('location')
 
 const initialState = {
+    isMember: true,
     isLoading: false,
     showAlert: false,
     alertText: '',
     alertType: '',
     user: user ? JSON.parse(user) : null,
     token: token,
-    userLocation: userLocation || '',
     showSidebar: false,
     isEditing: false,
     editDeviceId: '',
@@ -118,6 +118,10 @@ const AppProvider = ({ children }) => {
         localStorage.removeItem('location')
     }
 
+    const toggleIsMember = (isMember) => {
+        dispatch({ type: CHANGE_ISMEMBER_STATE, payload: { isMember } })
+    }
+
     const registerUser = async (currentUser) => {
         dispatch({ type: REGISTER_USER_BEGIN })
         try {
@@ -126,10 +130,10 @@ const AppProvider = ({ children }) => {
             const { user, token, location } = response.data
             dispatch({
                 type: REGISTER_USER_SUCCESS,
-                payload: { user, token, location }
+                payload: { user, token }
             })
             //local storage later
-            addUserToLocalStorage({ user, token, location })
+            addUserToLocalStorage({ user, token })
         } catch (error) {
             //console.log(error.response);
             dispatch({
@@ -145,13 +149,13 @@ const AppProvider = ({ children }) => {
         try {
             const { data } = await axios.post('/api/v1/auth/login', currentUser)
             //console.log(response);
-            const { user, token, location } = data
+            const { user, token } = data
             dispatch({
                 type: LOGIN_USER_SUCCESS,
-                payload: { user, token, location }
+                payload: { user, token }
             })
             //local storage later
-            addUserToLocalStorage({ user, token, location }) //when page refreshes access these values
+            addUserToLocalStorage({ user, token }) //when page refreshes access these values
         } catch (error) {
             //console.log(error.response);
             dispatch({
@@ -175,9 +179,9 @@ const AppProvider = ({ children }) => {
         dispatch({ type: UPDATE_USER_BEGIN })
         try {
             const { data } = await authFetch.patch('/auth/updateUser', currentUser)
-            const { user, location, token } = data
-            dispatch({ type: UPDATE_USER_SUCCESS, payload: { user, location, token } })
-            addUserToLocalStorage({ user, location, token })
+            const { user, token } = data
+            dispatch({ type: UPDATE_USER_SUCCESS, payload: { user, token } })
+            addUserToLocalStorage({ user, token })
             //console.log(data)
         } catch (error) {
             //console.log(error.response);
@@ -327,6 +331,7 @@ const AppProvider = ({ children }) => {
     return <AppContext.Provider value={{
         ...state,
         displayAlert,
+        toggleIsMember,
         registerUser,
         loginUser,
         toggleSidebar,

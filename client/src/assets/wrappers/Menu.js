@@ -28,11 +28,7 @@ const Wrapper = styled.nav`
     box-shadow: var(--shadow-2);
   }
 .spacer{
- flex: 50%
-}
-.user-menu{
-  padding: 5px;
-  flex: none;
+ flex: 10%
 }
 
   @media (min-width: 992px) {

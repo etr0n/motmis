@@ -1,7 +1,8 @@
-import { FormRow, Alert, FormRowSelect } from "../../components";
-import { useAppContext } from "../../context/appContext";
-import Wrapper from "../../assets/wrappers/DashboardFormPage";
-import { Link } from "react-router-dom";
+import { FormRow, Alert, FormRowSelect } from "../../components"
+import { useAppContext } from "../../context/appContext"
+import Wrapper from "../../assets/wrappers/DashboardFormPage"
+import { Link } from "react-router-dom"
+import Grid from '@mui/material/Grid';
 
 const AddDevice = () => {
     const {
@@ -42,46 +43,55 @@ const AddDevice = () => {
     return (
         <Wrapper>
             <Link to="/"
-                className='btn edit-btn'>
+                className='btn back'>
                 Back
             </Link>
             <form className="form">
                 <h3>{isEditing ? 'edit device' : 'add device'}</h3>
                 {showAlert && <Alert />}
-                <div className="form-center">
-                    <FormRow
-                        type='text'
-                        name="name"
-                        value={name}
-                        handleChange={handleDeviceInput}
-                    />
-                    <FormRow
-                        type='text'
-                        name="model"
-                        value={model}
-                        handleChange={handleDeviceInput}
-                    />
-                    <FormRow
-                        type='text'
-                        //labelText="Job location"
-                        name="latitude"
-                        value={latitude}
-                        handleChange={handleDeviceInput}
-                    />
-                    <FormRow
-                        type='text'
-                        //labelText="Job location"
-                        name="longitude"
-                        value={longitude}
-                        handleChange={handleDeviceInput}
-                    />
-                    {/*job type and job status*/}
-                    <FormRowSelect
-                        name="status"
-                        value={status}
-                        handleChange={handleDeviceInput}
-                        list={statusOptions} />
-                    <div className="btn-container">
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <FormRow
+                            type='text'
+                            name="name"
+                            value={name}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <FormRow
+                            type='text'
+                            name="model"
+                            value={model}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            //labelText="Job location"
+                            name="latitude"
+                            value={latitude}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            //labelText="Job location"
+                            name="longitude"
+                            value={longitude}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRowSelect
+                            name="status"
+                            value={status}
+                            handleChange={handleDeviceInput}
+                            list={statusOptions} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <button
                             type='submit'
                             className="btn btn-block submit-btn"
@@ -90,6 +100,8 @@ const AddDevice = () => {
                         >
                             submit
                         </button>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <button
                             className="btn btn-block clear-btn"
                             onClick={(e) => {
@@ -99,8 +111,8 @@ const AddDevice = () => {
                         >
                             clear
                         </button>
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </form>
         </Wrapper >
     )

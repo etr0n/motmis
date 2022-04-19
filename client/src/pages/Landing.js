@@ -1,6 +1,5 @@
 import main from '../assets/images/main.svg'
 import Wrapper from "../assets/wrappers/LandingPage";
-import { Logo } from '../components';
 import Menu from './../components/Menu';
 
 const Landing = () => {
@@ -9,7 +8,6 @@ const Landing = () => {
             <Menu />
             <Wrapper>
                 <div className="container page">
-                    {/* info */}
                     <div className='info'>
                         <h1>
                             Urban Air Pollution Monitoring Information System
