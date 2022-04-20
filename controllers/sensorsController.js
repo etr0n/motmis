@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { BadRequestError, NotFoundError } from '../errors/index.js'
 import checkPermissions from './../utils/checkPermissions.js'
-import { create, find, count, findOne } from '../queries/Sensor.js'
+import { create, find, count, findOne, remove } from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
     const { name, model, latitude, longitude, status } = req.body
@@ -70,15 +70,17 @@ const updateSensor = async (req, res) => {
 
 }
 const deleteSensor = async (req, res) => {
-    const { id: jobId } = req.params
-    //const job = await Job.findOne({ _id: jobId })
+    const { id: sensorId } = req.params
     const sensor = await findOne(sensorId)
+    console.log(sensor.fk_usersid_users);
+    console.log(req.user.userId);
 
     if (!sensor) {
         throw new NotFoundError(`No device with id: ${sensorId}`)
     }
-    checkPermissions(req.user, sensor.createdBy)
-    await sensor.remove()
+    checkPermissions(req.user, sensor.fk_usersid_users)
+    await remove(sensorId)
     res.status(StatusCodes.OK).json({ msg: 'Success! Device removed' })
+
 }
 export { createSensor, getAllSensors, updateSensor, deleteSensor }

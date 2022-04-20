@@ -5,8 +5,26 @@ import Device from "./Device";
 import Wrapper from "../assets/wrappers/SensorsContainer";
 import PageBtnContainer from "./PageBtnContainer";
 import TableWrapper from "../assets/wrappers/DeviceList";
-import Table from "react-bootstrap/Table"
+import Grid from '@mui/material/Grid';
+import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box'
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#199b14',
+        color: theme.palette.common.white,
+        fontSize: 16,
+        fontFamily: `'Cabin', 'Sans-Serif'`,
+    },
+}));
 
 const SensorsContainer = () => {
     const {
@@ -39,37 +57,42 @@ const SensorsContainer = () => {
 
     return (
         <Wrapper>
-            <div className="sensors-info btn-container">
-                <h5>{totalSensors} sensor{sensors.length > 1 && 's'} found</h5>
-                <Link
-                    to="/add-device"
-                    className='btn '
-                >
-                    Add device
-                </Link>
-            </div>
-
+            <Grid container >
+                <Grid item xs={6} md={6}>
+                    <h5>{totalSensors} sensor{sensors.length > 1 && 's'} found</h5>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                    <Box display="flex" justifyContent="flex-end">
+                        <Link
+                            to="/add-device"
+                            className='btn '
+                        >
+                            Add device
+                        </Link>
+                    </Box>
+                </Grid>
+            </Grid>
             <TableWrapper>
-                <Table responsive className="styled-table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Model</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Location</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sensors.map((sensor) => {
-                            return <Device key={sensor.id_sensor}{...sensor} />
-                        })}
-                    </tbody>
-                </Table>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>Name</StyledTableCell>
+                                <StyledTableCell>Model</StyledTableCell>
+                                <StyledTableCell>Status</StyledTableCell>
+                                <StyledTableCell>Date</StyledTableCell>
+                                <StyledTableCell>Location</StyledTableCell>
+                                <StyledTableCell>Actions</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {sensors.map((sensor) => {
+                                return <Device key={sensor.id_sensor}{...sensor} />
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </TableWrapper>
-
-            {/*pagination*/}
             {numOfPages > 1 && <PageBtnContainer />}
         </Wrapper>
 

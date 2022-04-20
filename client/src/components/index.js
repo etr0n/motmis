@@ -12,6 +12,7 @@ import JobInfo from './JobInfo'
 import StatsContainer from './StatsContainer';
 import ChartsContainer from './ChartsContainer';
 import Loading from './Loading';
+import ModalDelete from './ModalDelete';
 
 export {
     Logo,
@@ -28,4 +29,5 @@ export {
     StatsContainer,
     ChartsContainer,
     Loading,
+    ModalDelete,
 }

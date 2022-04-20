@@ -1,6 +1,5 @@
 import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
-import Logo from "../components/Logo";
 import Wrapper from "../assets/wrappers/BigSidebar";
 
 const BigSidebar = () => {
@@ -10,7 +9,7 @@ const BigSidebar = () => {
             <div className={showSidebar ? 'sidebar-container' : 'sidebar-container show-sidebar'}>
                 <div className="content">
                     <header>
-                        <Logo />
+                        <h4>UAPMIS</h4>
                     </header>
                     <NavLinks />
                 </div>

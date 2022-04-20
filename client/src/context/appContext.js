@@ -31,6 +31,7 @@ import {
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
     CHANGE_PAGE,
+    SHOW_MODAL
 } from './actions'
 import axios from "axios"
 
@@ -67,6 +68,7 @@ const initialState = {
     searchStatus: 'all',
     sort: 'latest',
     sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+    showModal: false,
 }
 
 const AppContext = React.createContext()
@@ -95,7 +97,9 @@ const AppProvider = ({ children }) => {
         }
         return Promise.reject(err)
     })
-
+    const displayModal = () => {
+        dispatch({ type: SHOW_MODAL })
+    }
 
     const displayAlert = () => {
         dispatch({ type: DISPLAY_ALERT })
@@ -292,11 +296,11 @@ const AppProvider = ({ children }) => {
         }
         clearAlert()
     }
-    const deleteDevice = async (DEVICEId) => {
+    const deleteDevice = async (id) => {
         //console.log(`delete DEVICE : ${id}`);
         dispatch({ type: DELETE_DEVICE_BEGIN })
         try {
-            await authFetch.delete(`/sensors/${DEVICEId}`)
+            await authFetch.delete(`/devices/${id}`)
             getSensors()
         } catch (error) {
             console.log(error.response);
@@ -347,6 +351,7 @@ const AppProvider = ({ children }) => {
         showStats,
         clearFilters,
         changePage,
+        displayModal,
     }}>
         {children}
     </AppContext.Provider>

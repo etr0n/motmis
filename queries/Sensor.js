@@ -15,30 +15,29 @@ const find = async ({ createdByUser, status, search }) => {
     try {
         if (!status && !search) {
             res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1', [createdByUser])
-            console.log('all');
+            // console.log('all');
         }
         if (search) {
             search = "^" + search
-            console.log("SEARCH:::::", search);
+            //console.log("SEARCH:::::", search);
             res = await db.query("SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND sensor.name ~* $2", [createdByUser, search])
-            console.log(res.rowCount);
+            //console.log(res.rowCount);
         }
         if (status) {
             res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status=$2', [createdByUser, status])
-            console.log('status');
+            //console.log('status');
         }
         if (status && search) {
-            console.log("status and search::::::", search);
+            // console.log("status and search::::::", search);
             search = "^" + search
             res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, longitude, latitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status=$2 AND sensor.name ~* $3', [createdByUser, status, search])
-            console.log('status and search true');
+            //console.log('status and search true');
         }
         return res.rows
     } catch (error) {
         console.log(error);
     }
 }
-
 const count = async ({ createdByUser, status, search }) => {
     let res, countSensors;
     try {
@@ -67,12 +66,23 @@ const count = async ({ createdByUser, status, search }) => {
         console.log(error);
     }
 }
-const findOne = async () => {
+const findOne = async (sensorId) => {
     try {
-        res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1', [createdByUser])
-        return res
+        const res = await db.query('SELECT id_sensor, fk_usersid_users FROM sensor WHERE id_sensor = $1', [sensorId])
+        console.log('find one res:', res.rows[0]);
+        return res.rows[0]
     } catch (error) {
         console.log(error);
     }
 }
-export { create, find, count, findOne }
+const remove = async (sensorId) => {
+    try {
+        const res = await db.query('DELETE FROM sensor WHERE id_sensor = $1', [sensorId])
+        console.log('rmv res:', res)
+        return res
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+export { create, find, count, findOne, remove }

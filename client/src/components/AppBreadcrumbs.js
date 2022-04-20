@@ -32,7 +32,6 @@ export default function AppBreadcrumbs() {
     //console.log(currentRoutes);
 
     if (currentRoutes.length === 0) {
-        console.log('hello home');
         return (
             <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: 15 }}>
                 <Link color="inherit" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>

@@ -1,7 +1,7 @@
 import Wrapper from '../assets/wrappers/Navbar'
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa'
 import { useAppContext } from '../context/appContext'
-import Logo from './Logo'
+import { AiOutlineUser } from "react-icons/ai"
 import { useState } from 'react'
 const Navbar = () => {
     const [showLogout, setShowLogout] = useState(false)
@@ -19,7 +19,7 @@ const Navbar = () => {
                 </button>
 
                 <div>
-                    <Logo />
+                    {/* <Logo /> */}
                     <h3 className='logo-text'>dashboard</h3>
                 </div>
 
@@ -32,7 +32,7 @@ const Navbar = () => {
                     // we dont want to invoke this when application starts,
                     // but only when clicked
                     >
-                        <FaUserCircle />
+                        <AiOutlineUser />
                         {user?.name} {/* I only get the name if the user exist*/}
                         {user?.lastName}
                         <FaCaretDown />

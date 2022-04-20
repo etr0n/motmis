@@ -29,11 +29,18 @@ import {
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
     CHANGE_PAGE,
+    SHOW_MODAL,
 } from './actions'
 import { initialState } from './appContext'
 
 const reducer = (state, action) => {
 
+    if (action.type === SHOW_MODAL) {
+        return {
+            ...state,
+            showModal: true
+        }
+    }
     if (action.type === DISPLAY_ALERT) {
         return {
             ...state,
