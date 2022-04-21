@@ -28,8 +28,8 @@ export default function AppBreadcrumbs() {
     let navigate = useNavigate();
     let location = useLocation();
     let currentRoutes = []
+    const regExpr = '/\/\d+/i'
     currentRoutes = location.pathname !== '/' ? location.pathname.split('/') : [];
-    //console.log(currentRoutes);
 
     if (currentRoutes.length === 0) {
         return (
@@ -53,7 +53,7 @@ export default function AppBreadcrumbs() {
                     currentRoutes.length === 1
                         ? <Typography color="textPrimary">{currentRoutes[0].charAt(0).toUpperCase() + currentRoutes[0].slice(1)}</Typography>
                         : currentRoutes.map((route, index) => {
-                            return (index !== currentRoutes.length - 1
+                            return (index === currentRoutes.length
                                 ? <Link key={index} color="inherit" style={{ cursor: 'pointer' }} onClick={() => {
                                     navigate(route)
                                 }} >

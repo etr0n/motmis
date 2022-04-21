@@ -6,5 +6,16 @@ import Subscriptions from "./Subscriptions";
 import AddSubscription from "./AddSubscription";
 import EditDevice from "./EditDevice"
 import DeviceData from './DeviceData';
+import DetailsDevice from "./DetailsDevice";
 
-export { AddDevice, Profile, SharedLayout, Devices, Subscriptions, AddSubscription, EditDevice, DeviceData }
+export {
+    AddDevice,
+    Profile,
+    SharedLayout,
+    Devices,
+    Subscriptions,
+    AddSubscription,
+    EditDevice,
+    DeviceData,
+    DetailsDevice
+}

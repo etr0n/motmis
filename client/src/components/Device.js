@@ -61,13 +61,14 @@ const Device = ({
             </StyledTableCell>
             <StyledTableCell>{date}</StyledTableCell>
             <StyledTableCell>{latitude}  {longitude}</StyledTableCell>
-            <StyledTableCell><Link
-                to="/edit-device"
-                className='btn edit-btn'
-                onClick={() => setEditDevice(id)}
-            >
-                Edit
-            </Link>
+            <StyledTableCell>
+                <Link
+                    to={`/edit-device/${id}`}
+                    className='btn edit-btn'
+                    onClick={() => setEditDevice(id)}
+                >
+                    Edit
+                </Link>
                 <button type='button' className='btn delete-btn' onClick={handleOpen}>
                     Delete
                 </button>

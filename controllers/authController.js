@@ -66,11 +66,11 @@ const updateUser = async (req, res) => {
     if (!email || !name || !lastName || !location) {
         throw new BadRequestError('Please provide all values')
     }
-    const userALreadyExists = await userEmailExist(email) //destruct
+    // const userALreadyExists = await userEmailExist(email) //destruct
 
-    if (userALreadyExists) {
-        throw new BadRequestError('Email already taken')
-    }
+    // if (userALreadyExists) {
+    //     throw new BadRequestError('Email already taken')
+    // }
 
     let user = await userFindById(req.user.userId)
 

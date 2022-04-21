@@ -220,12 +220,10 @@ const reducer = (state, action) => {
         }
     }
     if (action.type === SET_EDIT_DEVICE) {
-        console.log(state.sensors);
         const device = state.sensors.find((device) => device.id_sensor === action.payload.id)
         const { id_sensor, name, model, latitude, longitude, status } = device
         return {
             ...state,
-            isEditing: true, //gonna flip values instead of add DEVICE to edit DEVICE
             editDeviceId: id_sensor,
             name,
             model,

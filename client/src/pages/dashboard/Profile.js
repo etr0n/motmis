@@ -4,6 +4,7 @@ import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import Grid from '@mui/material/Grid';
 
+
 const Profile = () => {
     const { user, showAlert, displayAlert, updateUser, isLoading } = useAppContext()
 
@@ -45,12 +46,24 @@ const Profile = () => {
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <FormRow
+                        {/* <FormRow
                             type="email"
                             name="email"
                             value={email}
                             handleChange={(e) => setEmail(e.target.value)}
-                        />
+                            true
+                        /> */}
+                        <div className="form-row">
+                            <label htmlFor="email" className='form-label'>
+                                email
+                            </label>
+                            <input
+                                type="email"
+                                value={email}
+                                name="email"
+                                className='form-input'
+                                disabled />
+                        </div>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <FormRow

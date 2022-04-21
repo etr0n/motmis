@@ -13,7 +13,7 @@ import {
 router.route('/').post(createSensor).get(getAllSensors)
 
 router.route('/devices-data').get(getAllSensorData)
-router.route('/device-details/:id').get(getSensorData)
+router.route('/details-device/:id').get(getSensorData)
 
 router.route('/:id').delete(deleteSensor).patch(updateSensor)
 
