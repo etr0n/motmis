@@ -4,5 +4,7 @@ import SharedLayout from "./SharedLayout";
 import Devices from './Devices';
 import Subscriptions from "./Subscriptions";
 import AddSubscription from "./AddSubscription";
+import EditDevice from "./EditDevice"
+import DeviceData from './DeviceData';
 
-export { AddDevice, Profile, SharedLayout, Devices, Subscriptions, AddSubscription }
+export { AddDevice, Profile, SharedLayout, Devices, Subscriptions, AddSubscription, EditDevice, DeviceData }

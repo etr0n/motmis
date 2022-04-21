@@ -62,7 +62,7 @@ const Device = ({
             <StyledTableCell>{date}</StyledTableCell>
             <StyledTableCell>{latitude}  {longitude}</StyledTableCell>
             <StyledTableCell><Link
-                to="/add-device"
+                to="/edit-device"
                 className='btn edit-btn'
                 onClick={() => setEditDevice(id)}
             >

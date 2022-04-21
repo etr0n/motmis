@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { BadRequestError, NotFoundError } from '../errors/index.js'
 import checkPermissions from './../utils/checkPermissions.js'
-import { create, find, count, findOne, remove } from '../queries/Sensor.js'
+import { create, find, count, findOne, remove, update } from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
     const { name, model, latitude, longitude, status } = req.body
@@ -67,13 +67,30 @@ const getAllSensors = async (req, res) => {
     res.status(StatusCodes.OK).json({ sensors, numOfPages, totalSensors })
 }
 const updateSensor = async (req, res) => {
+    // res.send('update job')
+    const { id: sensorId } = req.params
+    const { name, model, latitude, longitude, status } = req.body
 
+    if (!name || !model || !latitude || !longitude || !status) {
+        throw new BadRequestError('Please provide all values')
+    }
+    const sensor = await findOne(sensorId)
+
+    if (!sensor) {
+        throw new NotFoundError(`No device with id: ${sensorId}`)
+    }
+
+    checkPermissions(req.user, sensor.fk_usersid_users)
+
+    const updatedSensor = await update(name, model, status, latitude, longitude, sensorId)
+
+    res.status(StatusCodes.OK).json({ updatedSensor })
 }
 const deleteSensor = async (req, res) => {
     const { id: sensorId } = req.params
     const sensor = await findOne(sensorId)
-    console.log(sensor.fk_usersid_users);
-    console.log(req.user.userId);
+    //console.log(sensor.fk_usersid_users);
+    //console.log(req.user.userId);
 
     if (!sensor) {
         throw new NotFoundError(`No device with id: ${sensorId}`)
@@ -83,4 +100,10 @@ const deleteSensor = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: 'Success! Device removed' })
 
 }
-export { createSensor, getAllSensors, updateSensor, deleteSensor }
+const getSensorData = async (req, res) => {
+
+}
+const getAllSensorData = async (req, res) => {
+
+}
+export { createSensor, getAllSensors, updateSensor, deleteSensor, getSensorData, getAllSensorData }

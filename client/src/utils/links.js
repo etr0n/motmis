@@ -1,7 +1,7 @@
 import { FaWifi } from "react-icons/fa";
 import { AiTwotoneNotification, AiOutlineUser } from "react-icons/ai"
-import { RiMenuAddLine } from "react-icons/ri"
-import { IoAdd } from "react-icons/io5"
+import { RiListUnordered } from "react-icons/ri"
+
 const links = [
     {
         id: 1,
@@ -11,24 +11,18 @@ const links = [
     },
     {
         id: 2,
-        text: "add-device",
-        path: "/add-device",
-        icon: <IoAdd />
-    },
-    {
-        id: 3,
         text: "subscriptions",
         path: "/subscriptions",
         icon: <AiTwotoneNotification />
     },
     {
-        id: 4,
-        text: "add-subscription",
-        path: "/add-subscription",
-        icon: <RiMenuAddLine />
+        id: 3,
+        text: "Data",
+        path: "/devices-data",
+        icon: <RiListUnordered />
     },
     {
-        id: 5,
+        id: 4,
         text: "profile",
         path: "/profile",
         icon: <AiOutlineUser />

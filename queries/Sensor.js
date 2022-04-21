@@ -69,7 +69,7 @@ const count = async ({ createdByUser, status, search }) => {
 const findOne = async (sensorId) => {
     try {
         const res = await db.query('SELECT id_sensor, fk_usersid_users FROM sensor WHERE id_sensor = $1', [sensorId])
-        console.log('find one res:', res.rows[0]);
+        //console.log('find one res:', res.rows[0]);
         return res.rows[0]
     } catch (error) {
         console.log(error);
@@ -78,11 +78,21 @@ const findOne = async (sensorId) => {
 const remove = async (sensorId) => {
     try {
         const res = await db.query('DELETE FROM sensor WHERE id_sensor = $1', [sensorId])
-        console.log('rmv res:', res)
+        //console.log('rmv res:', res)
         return res
 
     } catch (error) {
         console.log(error);
     }
 }
-export { create, find, count, findOne, remove }
+const update = async (name, model, status, latitude, longitude, sensorId) => {
+    try {
+        const res = await db.query('UPDATE sensor SET name = $1, model=$2, status=$3, latitude=$4, longitude=$5 WHERE id_sensor = $6',
+            [name, model, status, latitude, longitude, sensorId])
+        console.log('update res:', res)
+        return res
+    } catch (error) {
+        console.log(error);
+    }
+}
+export { create, find, count, findOne, remove, update }

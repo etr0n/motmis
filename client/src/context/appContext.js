@@ -111,15 +111,13 @@ const AppProvider = ({ children }) => {
         }, 3000)
     }
 
-    const addUserToLocalStorage = ({ user, token, location }) => {
+    const addUserToLocalStorage = ({ user, token }) => {
         localStorage.setItem('user', JSON.stringify(user))
         localStorage.setItem('token', token)
-        localStorage.setItem('location', location)
     }
     const removeUserFromLocalStorage = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-        localStorage.removeItem('location')
     }
 
     const toggleIsMember = (isMember) => {
@@ -131,7 +129,7 @@ const AppProvider = ({ children }) => {
         try {
             const response = await axios.post('/api/v1/auth/register', currentUser)
             //console.log(response);
-            const { user, token, location } = response.data
+            const { user, token } = response.data
             dispatch({
                 type: REGISTER_USER_SUCCESS,
                 payload: { user, token }
@@ -273,17 +271,16 @@ const AppProvider = ({ children }) => {
         // console.log(`set edit DEVICE : ${id}`);
         dispatch({ type: SET_EDIT_DEVICE, payload: { id } })
     }
-
-    const editDEVICE = async () => {
+    const editDevice = async () => {
         //console.log('edit DEVICE');
         dispatch({ type: EDIT_DEVICE_BEGIN })
         try {
-            const { position, company, DEVICELocation, DEVICEType, status } = state
-            await authFetch.patch(`/devices/${state.editDEVICEId}`, {
-                position,
-                company,
-                DEVICELocation,
-                DEVICEType,
+            const { name, model, latitude, longitude, status } = state
+            await authFetch.patch(`/devices/${state.editDeviceId}`, {
+                name,
+                model,
+                latitude,
+                longitude,
                 status
             })
             dispatch({ type: EDIT_DEVICE_SUCCESS }) //alert
@@ -347,7 +344,7 @@ const AppProvider = ({ children }) => {
         getSensors,
         setEditDevice,
         deleteDevice,
-        editDEVICE,
+        editDevice,
         showStats,
         clearFilters,
         changePage,
