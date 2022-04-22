@@ -13,6 +13,7 @@ import StatsContainer from './StatsContainer';
 import ChartsContainer from './ChartsContainer';
 import Loading from './Loading';
 import ModalDelete from './ModalDelete';
+import Measurement from './Measurement'
 
 export {
     Logo,
@@ -30,4 +31,5 @@ export {
     ChartsContainer,
     Loading,
     ModalDelete,
+    Measurement,
 }

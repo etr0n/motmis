@@ -1,10 +1,9 @@
-import { useAppContext } from "../context/appContext";
+import Wrapper from "../../../assets/wrappers/MeasurementContainer"
+import { useAppContext } from "../../../context/appContext";
 import { useEffect } from "react";
-import Loading from "./Loading";
-import Device from "./Device";
-import Wrapper from "../assets/wrappers/SensorsContainer";
-import PageBtnContainer from "./PageBtnContainer";
-import TableWrapper from "../assets/wrappers/DeviceList";
+import { Loading, Measurement } from "../../../components";
+import TableWrapper from "../../../assets/wrappers/DeviceList";
+import PageBtnContainer from "../../../components/PageBtnContainer";
 import Grid from '@mui/material/Grid';
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
@@ -25,14 +24,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontFamily: `'Cabin', 'Sans-Serif'`,
     },
 }));
-
-const SensorsContainer = () => {
+const DetailsDevice = () => {
     const {
-        getSensors,
-        sensors,
+        getDeviceData,
+        detailMeasurements: measurements,
         isLoading,
         page,
-        totalSensors,
+        totalMeasurements,
         searchName,
         searchStatus,
         sort,
@@ -41,7 +39,7 @@ const SensorsContainer = () => {
 
     //once the job component renders
     useEffect(() => {
-        getSensors()
+        getDeviceData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, searchName, searchStatus, sort])
 
@@ -49,11 +47,11 @@ const SensorsContainer = () => {
         return <Loading center />
     }
 
-    if (sensors.length === 0) {
+    if (measurements.length === 0) {
         return <Wrapper>
             <Grid container >
                 <Grid item xs={6} md={6}>
-                    <h4>No devices to display...</h4>
+                    <h4>No measurements to display...</h4>
                 </Grid>
                 <Grid item xs={6} md={6}>
                     <Box display="flex" justifyContent="flex-end">
@@ -61,19 +59,18 @@ const SensorsContainer = () => {
                             to="/add-device"
                             className='btn '
                         >
-                            Add device
+                            Add data
                         </Link>
                     </Box>
                 </Grid>
             </Grid>
         </Wrapper>
     }
-
     return (
         <Wrapper>
             <Grid container >
                 <Grid item xs={6} md={6}>
-                    <h5>{totalSensors} sensor{sensors.length > 1 && 's'} found</h5>
+                    <h5>{totalMeasurements} measurement{measurements.length > 1 && 's'} found</h5>
                 </Grid>
                 <Grid item xs={6} md={6}>
                     <Box display="flex" justifyContent="flex-end">
@@ -81,7 +78,7 @@ const SensorsContainer = () => {
                             to="/add-device"
                             className='btn '
                         >
-                            Add device
+                            Add data
                         </Link>
                     </Box>
                 </Grid>
@@ -91,17 +88,24 @@ const SensorsContainer = () => {
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell>Model</StyledTableCell>
-                                <StyledTableCell>Status</StyledTableCell>
-                                <StyledTableCell>Date</StyledTableCell>
-                                <StyledTableCell>Location</StyledTableCell>
+                                <StyledTableCell>NO2</StyledTableCell>
+                                <StyledTableCell>O3</StyledTableCell>
+                                <StyledTableCell>SO2</StyledTableCell>
+                                <StyledTableCell>CO</StyledTableCell>
+                                <StyledTableCell>Temperature</StyledTableCell>
+                                <StyledTableCell>Humidity</StyledTableCell>
+                                <StyledTableCell>Pressure</StyledTableCell>
+                                <StyledTableCell>PM 2.5</StyledTableCell>
+                                <StyledTableCell>PM 10</StyledTableCell>
+                                <StyledTableCell>Timestamp</StyledTableCell>
                                 <StyledTableCell>Actions</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sensors.map((sensor) => {
-                                return <Device key={sensor.id_sensor}{...sensor} />
+                            {console.log(measurements)}
+                            {measurements.map((measurement) => {
+                                return <Measurement key={measurement.id_measurement}{...measurement} />
+
                             })}
                         </TableBody>
                     </Table>
@@ -109,8 +113,7 @@ const SensorsContainer = () => {
             </TableWrapper>
             {numOfPages > 1 && <PageBtnContainer />}
         </Wrapper>
-
     )
 }
 
-export default SensorsContainer
+export default DetailsDevice  

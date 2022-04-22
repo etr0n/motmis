@@ -1,4 +1,4 @@
-import { SensorsContainer, SearchContainer } from '../../components'
+import { SensorsContainer, SearchContainer } from '../../../components'
 
 const Devices = () => {
     return (

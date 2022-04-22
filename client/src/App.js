@@ -17,10 +17,10 @@ function App() {
           <Route index element={<Devices />} />
           <Route path="add-device" element={<AddDevice />} />
           <Route path="edit-device/:id" element={<EditDevice />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="devices-data" element={<DeviceData />} />
-          <Route path="details-device" element={<DetailsDevice />} />
+          <Route path="details-device/:id" element={<DetailsDevice />} />
+          <Route path="subscriptions" element={<Subscriptions />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/landing" element={<Landing />} />

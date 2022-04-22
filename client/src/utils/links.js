@@ -12,17 +12,17 @@ const links = [
     },
     {
         id: 2,
-        text: "subscriptions",
-        path: "/subscriptions",
-        otherPaths: [],
-        icon: <AiTwotoneNotification />
-    },
-    {
-        id: 3,
         text: "Data",
         path: "/devices-data",
         otherPaths: [],
         icon: <RiListUnordered />
+    },
+    {
+        id: 3,
+        text: "subscriptions",
+        path: "/subscriptions",
+        otherPaths: [],
+        icon: <AiTwotoneNotification />
     },
     {
         id: 4,

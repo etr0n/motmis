@@ -30,6 +30,9 @@ import {
     CLEAR_FILTERS,
     CHANGE_PAGE,
     SHOW_MODAL,
+    GET_DEVICE_DATA_BEGIN,
+    GET_DEVICE_DATA_SUCCESS,
+    SET_DETAILS_DEVICE,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -217,6 +220,28 @@ const reducer = (state, action) => {
             sensors: action.payload.sensors,
             totalSensors: action.payload.totalSensors,
             numOfPages: action.payload.numOfPages,
+        }
+    }
+    if (action.type === GET_DEVICE_DATA_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+            //showAlert: false
+        }
+    }
+    if (action.type === GET_DEVICE_DATA_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            detailMeasurements: action.payload.detailMeasurements,
+            totalMeasurements: action.payload.totalMeasurements,
+            numOfPages: action.payload.numOfPages,
+        }
+    }
+    if (action.type === SET_DETAILS_DEVICE) {
+        return {
+            ...state,
+            detailsDeviceId: action.payload.id
         }
     }
     if (action.type === SET_EDIT_DEVICE) {

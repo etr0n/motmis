@@ -34,41 +34,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     }
 }));
-const Device = ({
-    id_sensor: id,
-    model,
-    name,
-    latitude,
-    longitude,
-    created_at,
-    status
+const Measurement = ({
+    id_measurement: id,
+    no2,
+    o3,
+    so2,
+    co,
+    temperature,
+    humidity,
+    pressure,
+    pm25,
+    pm10,
+    time,
 }) => {
-    const { setEditDevice, deleteDevice, setDeviceData } = useAppContext()
+    // const {deleteMeasurement } = useAppContext()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    let date = moment(created_at)
+    let date = moment(time)
+    let formattedTime = moment(time)
     date = date.format("MMM, Do, YYYY")
+    formattedTime = formattedTime.format("H:mm:ss  ")
     return (
         <StyledTableRow>
-            <StyledTableCell>{name}</StyledTableCell>
-            <StyledTableCell>{model}</StyledTableCell>
+            <StyledTableCell>{no2 ? no2 : '-'}</StyledTableCell>
+            <StyledTableCell>{o3 ? o3 : '-'}</StyledTableCell>
+            <StyledTableCell>{so2 ? so2 : '-'}</StyledTableCell>
+            <StyledTableCell>{co ? co : '-'}</StyledTableCell>
+            <StyledTableCell>{temperature ? temperature : '-'}</StyledTableCell>
+            <StyledTableCell>{humidity ? humidity : '-'}</StyledTableCell>
+            <StyledTableCell>{pressure ? pressure : '-'}</StyledTableCell>
+            <StyledTableCell>{pm25 ? pm25 : '-'}</StyledTableCell>
+            <StyledTableCell>{pm10 ? pm10 : '-'}</StyledTableCell>
+            <StyledTableCell>{formattedTime}{date}</StyledTableCell>
             <StyledTableCell>
-                <div className={`status ${status}`}>
-                    {status}
-                </div>
-            </StyledTableCell>
-            <StyledTableCell>{date}</StyledTableCell>
-            <StyledTableCell>{latitude}  {longitude}</StyledTableCell>
-            <StyledTableCell>
-                <Link
-                    to={`/edit-device/${id}`}
-                    className='btn edit-btn'
-                    onClick={() => setEditDevice(id)}
-                >
-                    Edit
-                </Link>
                 <button type='button' className='btn delete-btn' onClick={handleOpen}>
                     Delete
                 </button>
@@ -83,14 +83,14 @@ const Device = ({
                             delete device
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            You're going to delete the device "{name}". Are you sure?
+                            You're going to delete the measurement "{id}". Are you sure?
                         </Typography>
                         <Wrapper>
                             <Grid container>
                                 <Grid item md={6}>
-                                    <button type='button' className='btn delete-btn' onClick={() => deleteDevice(id)}>
-                                        Yes, Delete!
-                                    </button>
+                                    {/* <button type='button' className='btn delete-btn' onClick={() => deleteDevice(id)}> */}
+                                    Yes, Delete!
+                                    {/* </button> */}
                                 </Grid>
                                 <Grid item md={6}>
                                     <button type='button' className='btn' onClick={handleClose}>
@@ -101,16 +101,9 @@ const Device = ({
                         </Wrapper>
                     </Box>
                 </Modal>
-                <Link
-                    to={`/details-device/${id}`}
-                    className='btn details-btn'
-                    onClick={() => setDeviceData(id)}
-                >
-                    Details
-                </Link>
             </StyledTableCell>
         </StyledTableRow >
     )
 }
 
-export default Device
+export default Measurement

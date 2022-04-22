@@ -1,10 +1,11 @@
-import { FormRow, Alert, FormRowSelect } from "../../components"
-import { useAppContext } from "../../context/appContext"
-import Wrapper from "../../assets/wrappers/DashboardFormPage"
+import { FormRow, Alert, FormRowSelect } from "../../../components"
+import { useAppContext } from "../../../context/appContext"
+import Wrapper from "../../../assets/wrappers/DashboardFormPage"
 import { Link } from "react-router-dom"
 import Grid from '@mui/material/Grid';
+import { useEffect } from "react";
 
-const EditDevice = () => {
+const AddDevice = () => {
     const {
         isLoading,
         isEditing,
@@ -19,16 +20,20 @@ const EditDevice = () => {
         handleChange,
         clearValues,
         createDevice,
-        editDevice,
     } = useAppContext()
 
+    //once the addDevice component renders?
+    useEffect(() => {
+        clearValues()
+    }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!name || !model || !latitude || !longitude) {
             displayAlert()
             return
         }
-        editDevice()
+        createDevice()
+
     }
     const handleDeviceInput = (e) => {
         const name = e.target.name
@@ -37,14 +42,15 @@ const EditDevice = () => {
     }
 
     return (
-        <Wrapper>
+
+        < Wrapper >
             <Link to="/"
                 className='btn back'
             >
                 Back
             </Link>
             <form className="form">
-                <h3>edit device</h3>
+                <h3>add device</h3>
                 {showAlert && <Alert />}
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -111,8 +117,8 @@ const EditDevice = () => {
                     </Grid>
                 </Grid>
             </form>
-        </Wrapper >
+        </ Wrapper>
     )
 }
 
-export default EditDevice
+export default AddDevice

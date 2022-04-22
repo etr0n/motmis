@@ -31,7 +31,9 @@ import {
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
     CHANGE_PAGE,
-    SHOW_MODAL
+    GET_DEVICE_DATA_BEGIN,
+    GET_DEVICE_DATA_SUCCESS,
+    SET_DETAILS_DEVICE
 } from './actions'
 import axios from "axios"
 
@@ -50,6 +52,7 @@ const initialState = {
     showSidebar: false,
     isEditing: false,
     editDeviceId: '',
+    detailsDeviceId: '',
     position: '',
     company: '',
     statusOptions: ["active", "offline"],
@@ -59,6 +62,9 @@ const initialState = {
     latitude: '',
     longitude: '',
     sensors: [],
+    detailMeasurements: [],
+    allMeasurements: [],
+    totalMeasurements: 0,
     totalSensors: 0,
     numOfPages: 1,
     page: 1,
@@ -68,7 +74,6 @@ const initialState = {
     searchStatus: 'all',
     sort: 'latest',
     sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
-    showModal: false,
 }
 
 const AppContext = React.createContext()
@@ -97,9 +102,6 @@ const AppProvider = ({ children }) => {
         }
         return Promise.reject(err)
     })
-    const displayModal = () => {
-        dispatch({ type: SHOW_MODAL })
-    }
 
     const displayAlert = () => {
         dispatch({ type: DISPLAY_ALERT })
@@ -266,7 +268,36 @@ const AppProvider = ({ children }) => {
     // useEffect(() => {
     //     getDEVICEs()
     // }, [])
+    const setDeviceData = (id) => {
+        // console.log(`set edit DEVICE : ${id}`);
+        dispatch({ type: SET_DETAILS_DEVICE, payload: { id } })
+    }
+    const getDeviceData = async () => {
 
+        // const { searchName, searchStatus, sort, page } = state
+
+        // let url = `/devices?page=${page}&status=${searchStatus}&sort=${sort}`
+
+        // if (searchName) {
+        //     url = url + `&search=${searchName}`
+        // }
+        let url = `/devices/details-device/${state.detailsDeviceId}`
+        dispatch({ type: GET_DEVICE_DATA_BEGIN })
+        try {
+            const { data } = await authFetch(url)
+            const { detailMeasurements, numOfPages, totalMeasurements } = data
+            dispatch({
+                type: GET_DEVICE_DATA_SUCCESS,
+                payload: {
+                    detailMeasurements, numOfPages, totalMeasurements
+                }
+            })
+        } catch (error) {
+            //if we hit 401 auth err & 500 we just log out user
+            console.log(error.response);
+            //logoutUser()
+        }
+    }
     const setEditDevice = (id) => {
         // console.log(`set edit DEVICE : ${id}`);
         dispatch({ type: SET_EDIT_DEVICE, payload: { id } })
@@ -304,7 +335,6 @@ const AppProvider = ({ children }) => {
             //logoutUser()
         }
     }
-
     const showStats = async () => {
         dispatch({ type: SHOW_STATS_BEGIN })
         try {
@@ -348,7 +378,8 @@ const AppProvider = ({ children }) => {
         showStats,
         clearFilters,
         changePage,
-        displayModal,
+        getDeviceData,
+        setDeviceData,
     }}>
         {children}
     </AppContext.Provider>
