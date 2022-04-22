@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { BadRequestError, NotFoundError } from '../errors/index.js'
 import checkPermissions from './../utils/checkPermissions.js'
-import { create, find, count, findOne, remove, update } from '../queries/Sensor.js'
+import { create, find, count, findOne, remove, update, findData } from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
     const { name, model, latitude, longitude, status } = req.body
@@ -101,9 +101,63 @@ const deleteSensor = async (req, res) => {
 
 }
 const getSensorData = async (req, res) => {
+    //const { status, sort, search } = req.query
+    //console.log(req.params);
+    //console.log(req.query);
+    const { id: sensorId } = req.params
+
+    console.log("sensor id in controller::", req.params);
+    const queryObject = {
+        createdByUser: req.user.userId,
+    }
+
+    // if (status && status !== 'all') {
+    //     queryObject.status = status
+    // }
+
+    // if (search) {
+    //     queryObject.search = search
+    // }
+
+    //console.log(queryObject);
+    let result = await findData(queryObject, sensorId)
+    //console.log('pries sorta', result);
+
+    // if (sort === 'latest') {
+    //     result = result.sort((a, b) => b.created_at - a.created_at)
+    //     console.log('latest');
+    // }
+    // if (sort === 'oldest') {
+    //     result = result.sort((a, b) => a.created_at - b.created_at)
+    //     console.log('oldest');
+    // }
+    // if (sort === 'a-z') {
+    //     result = result.sort((a, b) => a.name.localeCompare(b.name))
+    //     console.log('a-z');
+    // }
+    // if (sort === 'z-a') {
+    //     result = result.sort((a, b) => b.name.localeCompare(a.name))
+    //     console.log('z-a');
+    // }
+
+    //console.log('po sorto', result);
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 4
+    const skip = (page - 1) * limit
+    //console.log(skip);
+    let detailMeasurements = result.slice(skip, page * limit)
+    //console.log(sliced);
+
+    //const totalMeasurements = await count(queryObject)
+    //console.log(totalSensors);
+    const totalMeasurements = 10
+    const numOfPages = Math.ceil(totalMeasurements / limit)
+
+    console.log(detailMeasurements);
+    res.status(StatusCodes.OK).json({ detailMeasurements, numOfPages, totalMeasurements })
 
 }
 const getAllSensorData = async (req, res) => {
 
 }
-export { createSensor, getAllSensors, updateSensor, deleteSensor, getSensorData, getAllSensorData }
+export { createSensor, getAllSensors, updateSensor, deleteSensor, getSensorData }

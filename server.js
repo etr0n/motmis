@@ -34,6 +34,7 @@ app.get('/api/v1', (req, res) => {
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/devices', authenticateUser, sensorsRouter)
+//subscriptions: app.use('/api/v1/subscriptions', authenticateUser, subscriptionsRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

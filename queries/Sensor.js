@@ -89,10 +89,22 @@ const update = async (name, model, status, latitude, longitude, sensorId) => {
     try {
         const res = await db.query('UPDATE sensor SET name = $1, model=$2, status=$3, latitude=$4, longitude=$5 WHERE id_sensor = $6',
             [name, model, status, latitude, longitude, sensorId])
-        console.log('update res:', res)
+        //console.log('update res:', res)
         return res
     } catch (error) {
         console.log(error);
     }
 }
-export { create, find, count, findOne, remove, update }
+const findData = async ({ createdByUser }, sensorId) => {
+    try {
+        console.log(createdByUser);
+        console.log(sensorId);
+        const res = await db.query('SELECT id_measurement, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time, fk_sensorid_sensor from measurement INNER JOIN sensor on  sensor.id_sensor=measurement.fk_sensorid_sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users where id_sensor =$1 and sensor.fk_usersid_users =$2',
+            [sensorId, createdByUser])
+        console.log('finding data');
+        return res.rows
+    } catch (error) {
+        console.log(error);
+    }
+}
+export { create, find, count, findOne, remove, update, findData }

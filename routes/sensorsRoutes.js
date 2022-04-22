@@ -7,12 +7,11 @@ import {
     updateSensor,
     deleteSensor,
     getSensorData,
-    getAllSensorData
+
 } from '../controllers/sensorsController.js'
 
 router.route('/').post(createSensor).get(getAllSensors)
 
-router.route('/devices-data').get(getAllSensorData)
 router.route('/details-device/:id').get(getSensorData)
 
 router.route('/:id').delete(deleteSensor).patch(updateSensor)
