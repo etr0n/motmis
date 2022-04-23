@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useAppContext } from "../context/appContext";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Wrapper from '../assets/wrappers/DeviceList'
 
 const style = {
@@ -47,6 +47,13 @@ const Device = ({
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+
+    // useEffect(() => {
+    //     setDeviceData(id)
+
+    // }, [])
+
 
     let date = moment(created_at)
     date = date.format("MMM, Do, YYYY")

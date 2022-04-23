@@ -40,6 +40,8 @@ import axios from "axios"
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
+const detailsDeviceId = localStorage.getItem('detailsDeviceId')
+const editDeviceId = localStorage.getItem('editDeviceId')
 
 const initialState = {
     isMember: true,
@@ -50,9 +52,9 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     token: token,
     showSidebar: false,
-    isEditing: false,
-    editDeviceId: '',
-    detailsDeviceId: '',
+    // isEditing: true,
+    editDeviceId: editDeviceId,
+    detailsDeviceId: detailsDeviceId,
     position: '',
     company: '',
     statusOptions: ["active", "offline"],
@@ -152,16 +154,13 @@ const AppProvider = ({ children }) => {
         dispatch({ type: LOGIN_USER_BEGIN })
         try {
             const { data } = await axios.post('/api/v1/auth/login', currentUser)
-            //console.log(response);
             const { user, token } = data
             dispatch({
                 type: LOGIN_USER_SUCCESS,
                 payload: { user, token }
             })
-            //local storage later
             addUserToLocalStorage({ user, token }) //when page refreshes access these values
         } catch (error) {
-            //console.log(error.response);
             dispatch({
                 type: LOGIN_USER_ERROR,
                 payload: { msg: error.response.data.msg }
@@ -177,6 +176,8 @@ const AppProvider = ({ children }) => {
     const logoutUser = () => {
         dispatch({ type: LOGOUT_USER })
         removeUserFromLocalStorage()
+        localStorage.removeItem('detailsDeviceId')
+        localStorage.removeItem('editDeviceId')
     }
 
     const updateUser = async (currentUser) => {
@@ -253,6 +254,7 @@ const AppProvider = ({ children }) => {
                     sensors, numOfPages, totalSensors
                 }
             })
+
         } catch (error) {
             //if we hit 401 auth err & 500 we just log out user
             console.log(error.response);
@@ -271,6 +273,7 @@ const AppProvider = ({ children }) => {
     const setDeviceData = (id) => {
         // console.log(`set edit DEVICE : ${id}`);
         dispatch({ type: SET_DETAILS_DEVICE, payload: { id } })
+        localStorage.setItem('detailsDeviceId', id)
     }
     const getDeviceData = async () => {
 
@@ -299,8 +302,9 @@ const AppProvider = ({ children }) => {
         }
     }
     const setEditDevice = (id) => {
-        // console.log(`set edit DEVICE : ${id}`);
+        //console.log(`set edit DEVICE : ${id}`);
         dispatch({ type: SET_EDIT_DEVICE, payload: { id } })
+        localStorage.setItem('editDeviceId', id)
     }
     const editDevice = async () => {
         //console.log('edit DEVICE');

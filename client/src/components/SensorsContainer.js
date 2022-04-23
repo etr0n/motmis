@@ -101,7 +101,7 @@ const SensorsContainer = () => {
                         </TableHead>
                         <TableBody>
                             {sensors.map((sensor) => {
-                                return <Device key={sensor.id_sensor}{...sensor} />
+                                return <Device key={sensor.id_sensor} {...sensor} />
                             })}
                         </TableBody>
                     </Table>

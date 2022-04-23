@@ -14,23 +14,23 @@ const find = async ({ createdByUser, status, search }) => {
     let res;
     try {
         if (!status && !search) {
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1', [createdByUser])
+            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1', [createdByUser])
             // console.log('all');
         }
         if (search) {
             search = "^" + search
             //console.log("SEARCH:::::", search);
-            res = await db.query("SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND sensor.name ~* $2", [createdByUser, search])
+            res = await db.query("SELECT id_sensor, sensor.name, model, status, sensor.created_at, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND sensor.name ~* $2", [createdByUser, search])
             //console.log(res.rowCount);
         }
         if (status) {
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status=$2', [createdByUser, status])
+            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, latitude, longitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status=$2', [createdByUser, status])
             //console.log('status');
         }
         if (status && search) {
             // console.log("status and search::::::", search);
             search = "^" + search
-            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, users.id_users, longitude, latitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status=$2 AND sensor.name ~* $3', [createdByUser, status, search])
+            res = await db.query('SELECT id_sensor, sensor.name, model, status, sensor.created_at, longitude, latitude FROM sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users WHERE users.id_users = $1 AND status=$2 AND sensor.name ~* $3', [createdByUser, status, search])
             //console.log('status and search true');
         }
         return res.rows

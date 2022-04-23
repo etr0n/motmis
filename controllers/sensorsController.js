@@ -57,7 +57,7 @@ const getAllSensors = async (req, res) => {
     const skip = (page - 1) * limit
     //console.log(skip);
     let sensors = result.slice(skip, page * limit)
-    //console.log(sliced);
+    // console.log(sensors);
 
     const totalSensors = await count(queryObject)
     //console.log(totalSensors);

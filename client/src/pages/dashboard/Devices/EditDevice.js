@@ -3,6 +3,7 @@ import { useAppContext } from "../../../context/appContext"
 import Wrapper from "../../../assets/wrappers/DashboardFormPage"
 import { Link } from "react-router-dom"
 import Grid from '@mui/material/Grid';
+import { useEffect } from "react";
 
 const EditDevice = () => {
     const {
@@ -20,7 +21,17 @@ const EditDevice = () => {
         clearValues,
         createDevice,
         editDevice,
+        setEditDevice,
+        editDeviceId,
+        getSensors
     } = useAppContext()
+
+
+    // useEffect(() => {
+    //     getSensors()
+    //     setEditDevice(editDeviceId)
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
