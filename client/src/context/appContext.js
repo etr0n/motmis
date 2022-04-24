@@ -41,7 +41,9 @@ import axios from "axios"
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
 const detailsDeviceId = localStorage.getItem('detailsDeviceId')
+//const sensor = localStorage.getItem('sensor')
 const editDeviceId = localStorage.getItem('editDeviceId')
+const sensors = localStorage.getItem('sensors')
 
 const initialState = {
     isMember: true,
@@ -52,18 +54,16 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     token: token,
     showSidebar: false,
-    // isEditing: true,
-    editDeviceId: editDeviceId,
     detailsDeviceId: detailsDeviceId,
-    position: '',
-    company: '',
+    editDeviceId: editDeviceId,
+    //sensor: sensor ? JSON.parse(sensor) : null,
     statusOptions: ["active", "offline"],
     status: 'active',
     name: '',
     model: '',
     latitude: '',
     longitude: '',
-    sensors: [],
+    sensors: sensors ? JSON.parse(sensors) : [],
     detailMeasurements: [],
     allMeasurements: [],
     totalMeasurements: 0,
@@ -177,7 +177,9 @@ const AppProvider = ({ children }) => {
         dispatch({ type: LOGOUT_USER })
         removeUserFromLocalStorage()
         localStorage.removeItem('detailsDeviceId')
+        // localStorage.removeItem('sensor')
         localStorage.removeItem('editDeviceId')
+        localStorage.removeItem('sensors')
     }
 
     const updateUser = async (currentUser) => {
@@ -254,7 +256,7 @@ const AppProvider = ({ children }) => {
                     sensors, numOfPages, totalSensors
                 }
             })
-
+            localStorage.setItem('sensors', JSON.stringify(sensors))
         } catch (error) {
             //if we hit 401 auth err & 500 we just log out user
             console.log(error.response);
@@ -306,20 +308,17 @@ const AppProvider = ({ children }) => {
         dispatch({ type: SET_EDIT_DEVICE, payload: { id } })
         localStorage.setItem('editDeviceId', id)
     }
-    const editDevice = async () => {
+    const editDevice = async (currentDevice) => {
         //console.log('edit DEVICE');
         dispatch({ type: EDIT_DEVICE_BEGIN })
         try {
-            const { name, model, latitude, longitude, status } = state
-            await authFetch.patch(`/devices/${state.editDeviceId}`, {
-                name,
-                model,
-                latitude,
-                longitude,
-                status
-            })
+            //const { name, model, latitude, longitude, status } = state
+            const { data } = await authFetch.patch(`/devices/${state.editDeviceId}`, currentDevice)
+            console.log(data);
+            const { updatedSensor } = data
             dispatch({ type: EDIT_DEVICE_SUCCESS }) //alert
-            dispatch({ type: CLEAR_VALUES })
+            //dispatch({ type: CLEAR_VALUES })
+            //localStorage.setItem('sensor', JSON.stringify(updatedSensor))
         } catch (error) {
             if (error.response === 401) return
             dispatch({

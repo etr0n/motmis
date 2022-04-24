@@ -89,8 +89,9 @@ const update = async (name, model, status, latitude, longitude, sensorId) => {
     try {
         const res = await db.query('UPDATE sensor SET name = $1, model=$2, status=$3, latitude=$4, longitude=$5 WHERE id_sensor = $6',
             [name, model, status, latitude, longitude, sensorId])
-        //console.log('update res:', res)
-        return res
+        return {
+            name, model, status, latitude, longitude, sensorId
+        }
     } catch (error) {
         console.log(error);
     }

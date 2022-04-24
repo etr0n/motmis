@@ -39,7 +39,7 @@ const SensorsContainer = () => {
         numOfPages,
     } = useAppContext()
 
-    //once the job component renders
+    //once the sensorcontainer component renders
     useEffect(() => {
         getSensors()
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -22,16 +22,16 @@ const EditDevice = () => {
         createDevice,
         editDevice,
         setEditDevice,
-        editDeviceId,
-        getSensors
+        getSensors,
+        editDeviceId
     } = useAppContext()
 
 
-    // useEffect(() => {
-    //     getSensors()
-    //     setEditDevice(editDeviceId)
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [])
+    useEffect(() => {
+        //console.log(editDeviceId, "!!!!!!!!!!!!");
+        setEditDevice(editDeviceId)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -39,7 +39,7 @@ const EditDevice = () => {
             displayAlert()
             return
         }
-        editDevice()
+        editDevice({ name, model, latitude, longitude, status })
     }
     const handleDeviceInput = (e) => {
         const name = e.target.name
