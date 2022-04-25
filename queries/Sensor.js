@@ -9,6 +9,15 @@ const create = async ({ name, model, status, latitude, longitude, createdBy }) =
         console.log(error);
     }
 }
+const createMeasurement = async ({ no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time }) => {
+    try {
+        const res = await db.query('INSERT INTO measurement (no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+            [no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time])
+        return res.rows[0]
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const find = async ({ createdByUser, status, search }) => {
     let res;
@@ -77,9 +86,18 @@ const countSensorData = async ({ createdByUser }, sensorId) => {
         console.log(error);
     }
 }
-const findOne = async (sensorId) => {
+const findOneSensor = async (sensorId) => {
     try {
         const res = await db.query('SELECT id_sensor, fk_usersid_users FROM sensor WHERE id_sensor = $1', [sensorId])
+        //console.log('find one res:', res.rows[0]);
+        return res.rows[0]
+    } catch (error) {
+        console.log(error);
+    }
+}
+const findOneMeasurement = async (measurementId) => {
+    try {
+        const res = await db.query('SELECT id_measurement FROM measurement WHERE id_measurement = $1', [measurementId])
         //console.log('find one res:', res.rows[0]);
         return res.rows[0]
     } catch (error) {
@@ -89,6 +107,16 @@ const findOne = async (sensorId) => {
 const remove = async (sensorId) => {
     try {
         const res = await db.query('DELETE FROM sensor WHERE id_sensor = $1', [sensorId])
+        //console.log('rmv res:', res)
+        return res
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+const removeMeasurement = async (measurementId) => {
+    try {
+        const res = await db.query('DELETE FROM measurement WHERE id_measurement = $1', [measurementId])
         //console.log('rmv res:', res)
         return res
 
@@ -117,4 +145,16 @@ const findData = async ({ createdByUser }, sensorId) => {
     }
 }
 
-export { create, find, countSensors, countSensorData, findOne, remove, update, findData }
+export {
+    create,
+    find,
+    countSensors,
+    countSensorData,
+    findOneSensor,
+    remove,
+    update,
+    findData,
+    findOneMeasurement,
+    removeMeasurement,
+    createMeasurement
+}

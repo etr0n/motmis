@@ -35,6 +35,7 @@ import {
     SET_DETAILS_DEVICE,
     SET_PAGE_NUMBER,
     SET_SORT_OPTION,
+    DELETE_DEVICE_DATA_BEGIN,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -260,6 +261,12 @@ const reducer = (state, action) => {
         }
     }
     if (action.type === DELETE_DEVICE_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        }
+    }
+    if (action.type === DELETE_DEVICE_DATA_BEGIN) {
         return {
             ...state,
             isLoading: true,

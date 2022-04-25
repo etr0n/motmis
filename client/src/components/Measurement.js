@@ -47,15 +47,10 @@ const Measurement = ({
     pm10,
     time,
 }) => {
-    const { setDeviceData } = useAppContext()
+    const { deleteDeviceData } = useAppContext()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-    // useEffect(() => {
-    //     setDeviceData(id)
-
-    // }, [])
 
     let date = moment(time)
     let formattedTime = moment(time)
@@ -93,9 +88,9 @@ const Measurement = ({
                         <Wrapper>
                             <Grid container>
                                 <Grid item md={6}>
-                                    {/* <button type='button' className='btn delete-btn' onClick={() => deleteDevice(id)}> */}
-                                    Yes, Delete!
-                                    {/* </button> */}
+                                    <button type='button' className='btn delete-btn' onClick={() => deleteDeviceData(id)}>
+                                        Yes, Delete!
+                                    </button>
                                 </Grid>
                                 <Grid item md={6}>
                                     <button type='button' className='btn' onClick={handleClose}>

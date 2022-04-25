@@ -35,7 +35,8 @@ import {
     GET_DEVICE_DATA_SUCCESS,
     SET_DETAILS_DEVICE,
     SET_PAGE_NUMBER,
-    SET_SORT_OPTION
+    SET_SORT_OPTION,
+    DELETE_DEVICE_DATA_BEGIN,
 } from './actions'
 import axios from "axios"
 
@@ -315,9 +316,9 @@ const AppProvider = ({ children }) => {
         dispatch({ type: EDIT_DEVICE_BEGIN })
         try {
             //const { name, model, latitude, longitude, status } = state
-            const { data } = await authFetch.patch(`/devices/${state.editDeviceId}`, currentDevice)
-            console.log(data);
-            const { updatedSensor } = data
+            await authFetch.patch(`/devices/${state.editDeviceId}`, currentDevice)
+            //  console.log(data);
+            //const { updatedSensor } = data
             dispatch({ type: EDIT_DEVICE_SUCCESS }) //alert
             //dispatch({ type: CLEAR_VALUES })
             //localStorage.setItem('sensor', JSON.stringify(updatedSensor))
@@ -335,6 +336,16 @@ const AppProvider = ({ children }) => {
         try {
             await authFetch.delete(`/devices/${id}`)
             getSensors()
+        } catch (error) {
+            console.log(error.response);
+            //logoutUser()
+        }
+    }
+    const deleteDeviceData = async (id) => {
+        dispatch({ type: DELETE_DEVICE_DATA_BEGIN })
+        try {
+            await authFetch.delete(`/devices/details-device/${id}`)
+            getDeviceData()
         } catch (error) {
             console.log(error.response);
             //logoutUser()
@@ -386,7 +397,8 @@ const AppProvider = ({ children }) => {
         getDeviceData,
         setDeviceData,
         setPageNumber,
-        setSortOption
+        setSortOption,
+        deleteDeviceData
     }}>
         {children}
     </AppContext.Provider>

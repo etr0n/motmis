@@ -1,7 +1,19 @@
 import { StatusCodes } from "http-status-codes"
 import { BadRequestError, NotFoundError } from '../errors/index.js'
 import checkPermissions from './../utils/checkPermissions.js'
-import { create, find, countSensors, countSensorData, findOne, remove, update, findData } from '../queries/Sensor.js'
+import {
+    create,
+    find,
+    countSensors,
+    countSensorData,
+    findOneSensor,
+    remove,
+    update,
+    findData,
+    findOneMeasurement,
+    removeMeasurement,
+    createMeasurement
+} from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
     const { name, model, latitude, longitude, status } = req.body
@@ -13,6 +25,16 @@ const createSensor = async (req, res) => {
     //console.log('body:::', req.body);
     const sensor = await create(req.body)
     res.status(StatusCodes.CREATED).json({ sensor })
+}
+const createSensorData = async (req, res) => {
+    const { no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time } = req.body
+
+    // if (!name || !model || !status || !latitude || !longitude) {
+    //     throw new BadRequestError('Please provide all values')
+    // }
+    //req.body.createdBy = req.user.userId
+    const measurement = await createMeasurement(req.body)
+    res.status(StatusCodes.CREATED).json({ measurement })
 }
 const getAllSensors = async (req, res) => {
     const { status, sort, search } = req.query
@@ -74,7 +96,7 @@ const updateSensor = async (req, res) => {
     if (!name || !model || !latitude || !longitude || !status) {
         throw new BadRequestError('Please provide all values')
     }
-    const sensor = await findOne(sensorId)
+    const sensor = await findOneSensor(sensorId)
 
     if (!sensor) {
         throw new NotFoundError(`No device with id: ${sensorId}`)
@@ -88,9 +110,7 @@ const updateSensor = async (req, res) => {
 }
 const deleteSensor = async (req, res) => {
     const { id: sensorId } = req.params
-    const sensor = await findOne(sensorId)
-    //console.log(sensor.fk_usersid_users);
-    //console.log(req.user.userId);
+    const sensor = await findOneSensor(sensorId)
 
     if (!sensor) {
         throw new NotFoundError(`No device with id: ${sensorId}`)
@@ -98,6 +118,18 @@ const deleteSensor = async (req, res) => {
     checkPermissions(req.user, sensor.fk_usersid_users)
     await remove(sensorId)
     res.status(StatusCodes.OK).json({ msg: 'Success! Device removed' })
+
+}
+const deleteSensorData = async (req, res) => {
+    const { id: measurementId } = req.params
+    const measurement = await findOneMeasurement(measurementId)
+
+    if (!measurement) {
+        throw new NotFoundError(`No measurement with id: ${measurementId}`)
+    }
+    //checkPermissions(req.user, sensor.fk_usersid_users)
+    await removeMeasurement(measurementId)
+    res.status(StatusCodes.OK).json({ msg: 'Success! Measurement removed' })
 
 }
 const getSensorData = async (req, res) => {
@@ -135,4 +167,13 @@ const getSensorData = async (req, res) => {
 const getAllSensorData = async (req, res) => {
 
 }
-export { createSensor, getAllSensors, updateSensor, deleteSensor, getSensorData }
+export {
+    createSensor,
+    getAllSensors,
+    updateSensor,
+    deleteSensor,
+    getSensorData,
+    deleteSensorData,
+    createSensorData,
+    getAllSensorData
+}
