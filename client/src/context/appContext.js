@@ -33,7 +33,9 @@ import {
     CHANGE_PAGE,
     GET_DEVICE_DATA_BEGIN,
     GET_DEVICE_DATA_SUCCESS,
-    SET_DETAILS_DEVICE
+    SET_DETAILS_DEVICE,
+    SET_PAGE_NUMBER,
+    SET_SORT_OPTION
 } from './actions'
 import axios from "axios"
 
@@ -127,7 +129,12 @@ const AppProvider = ({ children }) => {
     const toggleIsMember = (isMember) => {
         dispatch({ type: CHANGE_ISMEMBER_STATE, payload: { isMember } })
     }
-
+    const setPageNumber = () => {
+        dispatch({ type: SET_PAGE_NUMBER })
+    }
+    const setSortOption = () => {
+        dispatch({ type: SET_SORT_OPTION })
+    }
     const registerUser = async (currentUser) => {
         dispatch({ type: REGISTER_USER_BEGIN })
         try {
@@ -278,15 +285,10 @@ const AppProvider = ({ children }) => {
         localStorage.setItem('detailsDeviceId', id)
     }
     const getDeviceData = async () => {
+        const { sort, page } = state
 
-        // const { searchName, searchStatus, sort, page } = state
+        let url = `/devices/details-device/${state.detailsDeviceId}?page=${page}&sort=${sort}`
 
-        // let url = `/devices?page=${page}&status=${searchStatus}&sort=${sort}`
-
-        // if (searchName) {
-        //     url = url + `&search=${searchName}`
-        // }
-        let url = `/devices/details-device/${state.detailsDeviceId}`
         dispatch({ type: GET_DEVICE_DATA_BEGIN })
         try {
             const { data } = await authFetch(url)
@@ -383,6 +385,8 @@ const AppProvider = ({ children }) => {
         changePage,
         getDeviceData,
         setDeviceData,
+        setPageNumber,
+        setSortOption
     }}>
         {children}
     </AppContext.Provider>

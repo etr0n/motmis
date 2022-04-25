@@ -38,7 +38,7 @@ const find = async ({ createdByUser, status, search }) => {
         console.log(error);
     }
 }
-const count = async ({ createdByUser, status, search }) => {
+const countSensors = async ({ createdByUser, status, search }) => {
     let res, countSensors;
     try {
         if (!status && !search) {
@@ -61,6 +61,17 @@ const count = async ({ createdByUser, status, search }) => {
             countSensors = res.rows[0]
         }
         const { count } = countSensors
+        return count
+    } catch (error) {
+        console.log(error);
+    }
+}
+const countSensorData = async ({ createdByUser }, sensorId) => {
+    let countSensorData;
+    try {
+        const res = await db.query('SELECT COUNT (id_measurement) from measurement INNER JOIN sensor on sensor.id_sensor = measurement.fk_sensorid_sensor INNER JOIN users on users.id_users = sensor.fk_usersid_users where sensor.fk_usersid_users =$1 and id_sensor =$2', [createdByUser, sensorId])
+        countSensorData = res.rows[0]
+        const { count } = countSensorData
         return count
     } catch (error) {
         console.log(error);
@@ -98,14 +109,12 @@ const update = async (name, model, status, latitude, longitude, sensorId) => {
 }
 const findData = async ({ createdByUser }, sensorId) => {
     try {
-        console.log(createdByUser);
-        console.log(sensorId);
         const res = await db.query('SELECT id_measurement, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time, fk_sensorid_sensor from measurement INNER JOIN sensor on  sensor.id_sensor=measurement.fk_sensorid_sensor INNER JOIN users on users.id_users=sensor.fk_usersid_users where id_sensor =$1 and sensor.fk_usersid_users =$2',
             [sensorId, createdByUser])
-        console.log('finding data');
         return res.rows
     } catch (error) {
         console.log(error);
     }
 }
-export { create, find, count, findOne, remove, update, findData }
+
+export { create, find, countSensors, countSensorData, findOne, remove, update, findData }

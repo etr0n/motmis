@@ -37,11 +37,12 @@ const SensorsContainer = () => {
         searchStatus,
         sort,
         numOfPages,
+        setPageNumber,
     } = useAppContext()
 
-    //once the sensorcontainer component renders
     useEffect(() => {
         getSensors()
+        setPageNumber()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, searchName, searchStatus, sort])
 

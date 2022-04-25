@@ -1,8 +1,6 @@
 import { useAppContext } from "../context/appContext"
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi"
 import Wrapper from "../assets/wrappers/PageBtnContainer"
-import Pagination from '@mui/material/Pagination';
-
 
 const PageBtnContainer = () => {
     const { numOfPages, page, changePage } = useAppContext()

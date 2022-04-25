@@ -14,6 +14,7 @@ import ChartsContainer from './ChartsContainer';
 import Loading from './Loading';
 import ModalDelete from './ModalDelete';
 import Measurement from './Measurement'
+import SearchContainerDeviceDetails from './SearchContainerDeviceDetails'
 
 export {
     Logo,
@@ -32,4 +33,5 @@ export {
     Loading,
     ModalDelete,
     Measurement,
+    SearchContainerDeviceDetails,
 }

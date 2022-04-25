@@ -1,25 +1,15 @@
 import { FormRow, FormRowSelect } from "."
 import { useAppContext } from "../context/appContext"
 import Wrapper from "../assets/wrappers/SearchContainer"
-import { useEffect } from 'react';
 
-const SearchContainer = () => {
+const SearchContainerDeviceDetails = () => {
     const {
         isLoading,
-        searchName,
-        searchStatus,
         sort,
         sortOptions,
-        statusOptions,
         handleChange,
         clearFilters,
-        setSortOption,
     } = useAppContext()
-
-    useEffect(() => { //when component loads 
-        setSortOption()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const handleSearch = (e) => {
         if (isLoading) return //if loading we do not invoke handleChange
@@ -31,26 +21,13 @@ const SearchContainer = () => {
         clearFilters()
     }
 
+    sortOptions.splice(2, 2)
+
     return (
         <Wrapper>
             <form className="form">
-                <h4>search form</h4>
-                {/* name='search' must match state name*/}
+                <h4>sort form</h4>
                 <div className="form-center">
-                    <FormRow
-                        labelText='search name'
-                        type='text'
-                        name='searchName'
-                        value={searchName}
-                        handleChange={handleSearch}
-                    ></FormRow>
-                    <FormRowSelect
-                        labelText='Sensor status'
-                        name='searchStatus'
-                        value={searchStatus}
-                        handleChange={handleSearch}
-                        list={['all', ...statusOptions]}
-                    ></FormRowSelect>
                     <FormRowSelect
                         name="sort"
                         value={sort}
@@ -62,7 +39,7 @@ const SearchContainer = () => {
                         disabled={isLoading}
                         onClick={handleSubmit}
                     >
-                        clear filters
+                        clear filter
                     </button>
                 </div>
             </form>
@@ -70,4 +47,4 @@ const SearchContainer = () => {
     )
 }
 
-export default SearchContainer
+export default SearchContainerDeviceDetails

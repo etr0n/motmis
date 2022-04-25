@@ -15,6 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box'
+import SearchContainerDeviceDetails from '../../../components/SearchContainerDeviceDetails'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -31,17 +32,14 @@ const DetailsDevice = () => {
         isLoading,
         page,
         totalMeasurements,
-        searchName,
-        searchStatus,
         sort,
         numOfPages,
     } = useAppContext()
 
-    //once the job component renders
     useEffect(() => {
         getDeviceData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [page, sort])
 
     if (isLoading) {
         return <Loading center />
@@ -67,52 +65,55 @@ const DetailsDevice = () => {
         </Wrapper>
     }
     return (
-        <Wrapper>
-            <Grid container >
-                <Grid item xs={6} md={6}>
-                    <h5>{totalMeasurements} measurement{measurements.length > 1 && 's'} found</h5>
+        <>
+            <SearchContainerDeviceDetails />
+            <Wrapper>
+                <Grid container >
+                    <Grid item xs={6} md={6}>
+                        <h5>{totalMeasurements} measurement{measurements.length > 1 && 's'} found</h5>
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <Box display="flex" justifyContent="flex-end">
+                            <Link
+                                to="/add-device"
+                                className='btn '
+                            >
+                                Add data
+                            </Link>
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Grid item xs={6} md={6}>
-                    <Box display="flex" justifyContent="flex-end">
-                        <Link
-                            to="/add-device"
-                            className='btn '
-                        >
-                            Add data
-                        </Link>
-                    </Box>
-                </Grid>
-            </Grid>
-            <TableWrapper>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>NO2</StyledTableCell>
-                                <StyledTableCell>O3</StyledTableCell>
-                                <StyledTableCell>SO2</StyledTableCell>
-                                <StyledTableCell>CO</StyledTableCell>
-                                <StyledTableCell>Temperature</StyledTableCell>
-                                <StyledTableCell>Humidity</StyledTableCell>
-                                <StyledTableCell>Pressure</StyledTableCell>
-                                <StyledTableCell>PM 2.5</StyledTableCell>
-                                <StyledTableCell>PM 10</StyledTableCell>
-                                <StyledTableCell>Timestamp</StyledTableCell>
-                                <StyledTableCell>Actions</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {console.log(measurements)}
-                            {measurements.map((measurement) => {
-                                return <Measurement key={measurement.id_measurement}{...measurement} />
+                <TableWrapper>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>NO2</StyledTableCell>
+                                    <StyledTableCell>O3</StyledTableCell>
+                                    <StyledTableCell>SO2</StyledTableCell>
+                                    <StyledTableCell>CO</StyledTableCell>
+                                    <StyledTableCell>Temperature</StyledTableCell>
+                                    <StyledTableCell>Humidity</StyledTableCell>
+                                    <StyledTableCell>Pressure</StyledTableCell>
+                                    <StyledTableCell>PM 2.5</StyledTableCell>
+                                    <StyledTableCell>PM 10</StyledTableCell>
+                                    <StyledTableCell>Timestamp</StyledTableCell>
+                                    <StyledTableCell>Actions</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {console.log(measurements)}
+                                {measurements.map((measurement) => {
+                                    return <Measurement key={measurement.id_measurement}{...measurement} />
 
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </TableWrapper>
-            {numOfPages > 1 && <PageBtnContainer />}
-        </Wrapper>
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </TableWrapper>
+                {numOfPages > 1 && <PageBtnContainer />}
+            </Wrapper>
+        </>
     )
 }
 

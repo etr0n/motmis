@@ -43,17 +43,10 @@ const Device = ({
     created_at,
     status
 }) => {
-    const { setEditDevice, deleteDevice, setDeviceData } = useAppContext()
+    const { setEditDevice, deleteDevice, setDeviceData, setPageNumber, setSortOption } = useAppContext()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-
-    // useEffect(() => {
-    //     setDeviceData(id)
-
-    // }, [])
-
 
     let date = moment(created_at)
     date = date.format("MMM, Do, YYYY")
@@ -111,7 +104,7 @@ const Device = ({
                 <Link
                     to={`/details-device/${id}`}
                     className='btn details-btn'
-                    onClick={() => setDeviceData(id)}
+                    onClick={() => { setDeviceData(id); setPageNumber(); setSortOption() }}
                 >
                     Details
                 </Link>

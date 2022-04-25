@@ -33,6 +33,8 @@ import {
     GET_DEVICE_DATA_BEGIN,
     GET_DEVICE_DATA_SUCCESS,
     SET_DETAILS_DEVICE,
+    SET_PAGE_NUMBER,
+    SET_SORT_OPTION,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -314,6 +316,18 @@ const reducer = (state, action) => {
         return {
             ...state,
             page: action.payload.number
+        }
+    }
+    if (action.type === SET_PAGE_NUMBER) {
+        return {
+            ...state,
+            page: 1
+        }
+    }
+    if (action.type === SET_SORT_OPTION) {
+        return {
+            ...state,
+            sort: "latest"
         }
     }
     throw new Error(`no such action: ${action.type}`)
