@@ -36,6 +36,9 @@ import {
     SET_PAGE_NUMBER,
     SET_SORT_OPTION,
     DELETE_DEVICE_DATA_BEGIN,
+    CREATE_DEVICE_DATA_BEGIN,
+    CREATE_DEVICE_DATA_SUCCESS,
+    CREATE_DEVICE_DATA_ERROR,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -166,7 +169,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             page: 1,
-            [action.payload.name]: action.payload.value
+            [action.payload.name]: action.payload.value ? action.payload.value : null
         }
     }
     if (action.type === CLEAR_VALUES) {
@@ -199,6 +202,30 @@ const reducer = (state, action) => {
         }
     }
     if (action.type === CREATE_DEVICE_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "danger",
+            alertText: action.payload.msg,
+        }
+    }
+    if (action.type === CREATE_DEVICE_DATA_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        }
+    }
+    if (action.type === CREATE_DEVICE_DATA_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "success",
+            alertText: "New Device Data Created!",
+        }
+    }
+    if (action.type === CREATE_DEVICE_DATA_ERROR) {
         return {
             ...state,
             isLoading: false,

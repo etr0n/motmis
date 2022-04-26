@@ -37,6 +37,9 @@ import {
     SET_PAGE_NUMBER,
     SET_SORT_OPTION,
     DELETE_DEVICE_DATA_BEGIN,
+    CREATE_DEVICE_DATA_BEGIN,
+    CREATE_DEVICE_DATA_SUCCESS,
+    CREATE_DEVICE_DATA_ERROR,
 } from './actions'
 import axios from "axios"
 
@@ -44,7 +47,6 @@ import axios from "axios"
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
 const detailsDeviceId = localStorage.getItem('detailsDeviceId')
-//const sensor = localStorage.getItem('sensor')
 const editDeviceId = localStorage.getItem('editDeviceId')
 const sensors = localStorage.getItem('sensors')
 
@@ -59,13 +61,21 @@ const initialState = {
     showSidebar: false,
     detailsDeviceId: detailsDeviceId,
     editDeviceId: editDeviceId,
-    //sensor: sensor ? JSON.parse(sensor) : null,
     statusOptions: ["active", "offline"],
     status: 'active',
     name: '',
     model: '',
     latitude: '',
     longitude: '',
+    no2: '',
+    o3: '',
+    so2: '',
+    co: '',
+    temperature: '',
+    humidity: '',
+    pressure: '',
+    pm25: '',
+    pm10: '',
     sensors: sensors ? JSON.parse(sensors) : [],
     detailMeasurements: [],
     allMeasurements: [],
@@ -246,6 +256,26 @@ const AppProvider = ({ children }) => {
         }
         clearAlert()
     }
+    const createDeviceData = async () => {
+        dispatch({
+            type: CREATE_DEVICE_DATA_BEGIN
+        })
+        try {
+            const { no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10 } = state
+            await authFetch.post('/devices/details-device', {
+                no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10
+            })
+            dispatch({ type: CREATE_DEVICE_DATA_SUCCESS })
+            dispatch({ type: CLEAR_VALUES })
+        } catch (error) {
+            if (error.response.status === 401) return
+            dispatch({
+                type: CREATE_DEVICE_DATA_ERROR,
+                payload: { msg: error.response.data.msg }
+            })
+        }
+        clearAlert()
+    }
     const getSensors = async () => {
         const { searchName, searchStatus, sort, page } = state
 
@@ -275,11 +305,6 @@ const AppProvider = ({ children }) => {
         //an alert is still displayed (new DEVICE created or smth like that)
         clearAlert()
     }
-
-    // for testing
-    // useEffect(() => {
-    //     getDEVICEs()
-    // }, [])
     const setDeviceData = (id) => {
         // console.log(`set edit DEVICE : ${id}`);
         dispatch({ type: SET_DETAILS_DEVICE, payload: { id } })
@@ -398,7 +423,8 @@ const AppProvider = ({ children }) => {
         setDeviceData,
         setPageNumber,
         setSortOption,
-        deleteDeviceData
+        deleteDeviceData,
+        createDeviceData,
     }}>
         {children}
     </AppContext.Provider>

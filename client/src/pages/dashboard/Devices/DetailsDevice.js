@@ -33,7 +33,7 @@ const DetailsDevice = () => {
         page,
         totalMeasurements,
         sort,
-        numOfPages,
+        numOfPages
     } = useAppContext()
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const DetailsDevice = () => {
                 <Grid item xs={6} md={6}>
                     <Box display="flex" justifyContent="flex-end">
                         <Link
-                            to="/add-device"
+                            to="/add-device-data"
                             className='btn '
                         >
                             Add data
@@ -75,7 +75,7 @@ const DetailsDevice = () => {
                     <Grid item xs={6} md={6}>
                         <Box display="flex" justifyContent="flex-end">
                             <Link
-                                to="/add-device"
+                                to="/add-device-data"
                                 className='btn '
                             >
                                 Add data

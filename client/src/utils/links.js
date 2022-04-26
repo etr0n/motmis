@@ -13,7 +13,7 @@ const links = [
     {
         id: 2,
         text: "Data",
-        path: "/devices-data",
+        path: "/all-device-data",
         otherPaths: [],
         icon: <RiListUnordered />
     },

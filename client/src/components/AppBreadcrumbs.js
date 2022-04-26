@@ -2,8 +2,12 @@ import { Typography, Breadcrumbs, Link } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { emphasize, styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
+import { useAppContext } from '../context/appContext';
 
 export default function AppBreadcrumbs() {
+    const {
+        setPageNumber,
+    } = useAppContext()
 
     const StyledBreadcrumb = styled(Chip)(({ theme }) => {
         const backgroundColor =
@@ -46,7 +50,7 @@ export default function AppBreadcrumbs() {
         currentRoutes.shift();
         return (
             <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: 15 }}>
-                <Link color="inherit" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                <Link color="inherit" onClick={() => { setPageNumber(); navigate('/') }} style={{ cursor: 'pointer' }} >
                     Devices
                 </Link>
                 {

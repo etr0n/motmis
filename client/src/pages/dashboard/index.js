@@ -5,8 +5,9 @@ import Devices from './Devices/Devices';
 import Subscriptions from "./Subscriptions/Subscriptions";
 import AddSubscription from "./Subscriptions/AddSubscription";
 import EditDevice from "./Devices/EditDevice"
-import DeviceData from './Devices/DeviceData';
+import AddDeviceData from './Devices/AddDeviceData';
 import DetailsDevice from "./Devices/DetailsDevice";
+import AllData from "./Devices/AllData";
 
 export {
     AddDevice,
@@ -16,6 +17,7 @@ export {
     Subscriptions,
     AddSubscription,
     EditDevice,
-    DeviceData,
-    DetailsDevice
+    AddDeviceData,
+    DetailsDevice,
+    AllData,
 }

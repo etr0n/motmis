@@ -5,20 +5,25 @@ import { Link } from "react-router-dom"
 import Grid from '@mui/material/Grid';
 import { useEffect } from "react";
 
-const AddDevice = () => {
+const AddDeviceData = () => {
+
     const {
         isLoading,
         showAlert,
         displayAlert,
-        name,
-        model,
-        latitude,
-        longitude,
-        status,
-        statusOptions,
+        no2,
+        o3,
+        so2,
+        co,
+        temperature,
+        humidity,
+        pressure,
+        pm25,
+        pm10,
         handleChange,
         clearValues,
-        createDevice,
+        createDeviceData,
+        detailsDeviceId,
     } = useAppContext()
 
     useEffect(() => {
@@ -26,11 +31,11 @@ const AddDevice = () => {
     }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (!name || !model || !latitude || !longitude) {
-            displayAlert()
-            return
-        }
-        createDevice()
+        // if (!name || !model || !latitude || !longitude) {
+        //     displayAlert()
+        //     return
+        // }
+        createDeviceData()
 
     }
     const handleDeviceInput = (e) => {
@@ -42,55 +47,88 @@ const AddDevice = () => {
     return (
 
         < Wrapper >
-            <Link to="/"
+            <Link to={`/details-device/${detailsDeviceId}`}
                 className='btn back'
             >
                 Back
             </Link>
             <form className="form">
-                <h3>add device</h3>
+                <h3>add device data</h3>
                 {showAlert && <Alert />}
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                         <FormRow
-                            type='text'
-                            name="name"
-                            value={name}
-                            handleChange={handleDeviceInput}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormRow
-                            type='text'
-                            name="model"
-                            value={model}
+                            type='number'
+                            name="no2"
+                            value={no2}
                             handleChange={handleDeviceInput}
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <FormRow
                             type='text'
-                            //labelText="Job location"
-                            name="latitude"
-                            value={latitude}
+                            name="o3"
+                            value={o3}
                             handleChange={handleDeviceInput}
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <FormRow
                             type='text'
-                            //labelText="Job location"
-                            name="longitude"
-                            value={longitude}
+                            name="so2"
+                            value={so2}
                             handleChange={handleDeviceInput}
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <FormRowSelect
-                            name="status"
-                            value={status}
+                        <FormRow
+                            type='text'
+                            name="co"
+                            value={co}
                             handleChange={handleDeviceInput}
-                            list={statusOptions} />
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            name="temperature"
+                            value={temperature}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            name="humidity"
+                            value={humidity}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            name="pressure"
+                            value={pressure}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            labelText="PM 2.5"
+                            name="pm25"
+                            value={pm25}
+                            handleChange={handleDeviceInput}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormRow
+                            type='text'
+                            labelText="PM 10"
+                            name="pm10"
+                            value={pm10}
+                            handleChange={handleDeviceInput}
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <button
@@ -119,4 +157,4 @@ const AddDevice = () => {
     )
 }
 
-export default AddDevice
+export default AddDeviceData
