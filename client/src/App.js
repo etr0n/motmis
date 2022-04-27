@@ -17,7 +17,7 @@ function App() {
           <Route index element={<Devices />} />
           <Route path="add-device" element={<AddDevice />} />
           <Route path="edit-device/:id" element={<EditDevice />} />
-          <Route path="add-device-data" element={<AddDeviceData />} />
+          <Route path="add-device-data/:id" element={<AddDeviceData />} />
           <Route path="all-device-data" element={<AllData />} />
           <Route path="details-device/:id" element={<DetailsDevice />} />
           <Route path="subscriptions" element={<Subscriptions />} />

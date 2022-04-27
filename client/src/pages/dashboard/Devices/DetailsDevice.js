@@ -33,7 +33,8 @@ const DetailsDevice = () => {
         page,
         totalMeasurements,
         sort,
-        numOfPages
+        numOfPages,
+        detailsDeviceId
     } = useAppContext()
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const DetailsDevice = () => {
                 <Grid item xs={6} md={6}>
                     <Box display="flex" justifyContent="flex-end">
                         <Link
-                            to="/add-device-data"
+                            to={`/add-device-data/${detailsDeviceId}`}
                             className='btn '
                         >
                             Add data
@@ -75,7 +76,7 @@ const DetailsDevice = () => {
                     <Grid item xs={6} md={6}>
                         <Box display="flex" justifyContent="flex-end">
                             <Link
-                                to="/add-device-data"
+                                to={`/add-device-data/${detailsDeviceId}`}
                                 className='btn '
                             >
                                 Add data
@@ -102,7 +103,6 @@ const DetailsDevice = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {console.log(measurements)}
                                 {measurements.map((measurement) => {
                                     return <Measurement key={measurement.id_measurement}{...measurement} />
 

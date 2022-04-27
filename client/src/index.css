@@ -139,7 +139,10 @@ ul {
   list-style-type: none;
   padding: 0;
 }
-
+.leaflet-container {
+  width: 100vw;
+  height: 100vh;
+}
 .img {
   width: 100%;
   display: block;

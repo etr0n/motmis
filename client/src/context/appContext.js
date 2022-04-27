@@ -40,6 +40,8 @@ import {
     CREATE_DEVICE_DATA_BEGIN,
     CREATE_DEVICE_DATA_SUCCESS,
     CREATE_DEVICE_DATA_ERROR,
+    CLEAR_VALUES_DEVICE_DATA,
+    GET_ALL_DEVICE_DATA_SUCCESS,
 } from './actions'
 import axios from "axios"
 
@@ -230,6 +232,11 @@ const AppProvider = ({ children }) => {
             type: CLEAR_VALUES
         })
     }
+    const clearValuesDeviceData = () => {
+        dispatch({
+            type: CLEAR_VALUES_DEVICE_DATA
+        })
+    }
     const createDevice = async () => {
         dispatch({
             type: CREATE_DEVICE_BEGIN
@@ -261,12 +268,12 @@ const AppProvider = ({ children }) => {
             type: CREATE_DEVICE_DATA_BEGIN
         })
         try {
-            const { no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10 } = state
+            const { no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, detailsDeviceId } = state
             await authFetch.post('/devices/details-device', {
-                no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10
+                no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, detailsDeviceId
             })
             dispatch({ type: CREATE_DEVICE_DATA_SUCCESS })
-            dispatch({ type: CLEAR_VALUES })
+            dispatch({ type: CLEAR_VALUES_DEVICE_DATA })
         } catch (error) {
             if (error.response.status === 401) return
             dispatch({
@@ -323,6 +330,29 @@ const AppProvider = ({ children }) => {
                 type: GET_DEVICE_DATA_SUCCESS,
                 payload: {
                     detailMeasurements, numOfPages, totalMeasurements
+                }
+            })
+        } catch (error) {
+            //if we hit 401 auth err & 500 we just log out user
+            console.log(error.response);
+            //logoutUser()
+        }
+    }
+    const getAllDeviceData = async () => {
+        const { sort, page } = state
+
+        let url = `/devices/all-device-data?page=${page}&sort=${sort}`
+
+        dispatch({ type: GET_DEVICE_DATA_BEGIN })
+        try {
+            const { data } = await authFetch(url)
+            console.log(data);
+            const { allMeasurements, numOfPages, totalMeasurements } = data
+            console.log(allMeasurements);
+            dispatch({
+                type: GET_ALL_DEVICE_DATA_SUCCESS,
+                payload: {
+                    allMeasurements, numOfPages, totalMeasurements
                 }
             })
         } catch (error) {
@@ -425,6 +455,8 @@ const AppProvider = ({ children }) => {
         setSortOption,
         deleteDeviceData,
         createDeviceData,
+        clearValuesDeviceData,
+        getAllDeviceData,
     }}>
         {children}
     </AppContext.Provider>

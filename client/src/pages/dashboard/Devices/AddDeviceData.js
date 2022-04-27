@@ -21,13 +21,13 @@ const AddDeviceData = () => {
         pm25,
         pm10,
         handleChange,
-        clearValues,
+        clearValuesDeviceData,
         createDeviceData,
         detailsDeviceId,
     } = useAppContext()
 
     useEffect(() => {
-        clearValues()
+        clearValuesDeviceData()
     }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -53,7 +53,7 @@ const AddDeviceData = () => {
                 Back
             </Link>
             <form className="form">
-                <h3>add device data</h3>
+                <h3>add device data for</h3>
                 {showAlert && <Alert />}
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={4}>
@@ -145,7 +145,7 @@ const AddDeviceData = () => {
                             className="btn btn-block clear-btn"
                             onClick={(e) => {
                                 e.preventDefault()
-                                clearValues()
+                                clearValuesDeviceData()
                             }}
                         >
                             clear

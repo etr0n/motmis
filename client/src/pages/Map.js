@@ -1,22 +1,21 @@
 import Menu from "../components/Menu"
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
-
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import 'leaflet/dist/leaflet.css';
 const Map = () => {
     return (
         <>
             <Menu />
-
+            <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} className='leaflet-container'>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[51.505, -0.09]}>
+                    <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                    </Popup>
+                </Marker>
+            </MapContainer>
         </>
     )
 }

@@ -39,6 +39,8 @@ import {
     CREATE_DEVICE_DATA_BEGIN,
     CREATE_DEVICE_DATA_SUCCESS,
     CREATE_DEVICE_DATA_ERROR,
+    CLEAR_VALUES_DEVICE_DATA,
+    GET_ALL_DEVICE_DATA_SUCCESS
 } from './actions'
 import { initialState } from './appContext'
 
@@ -169,7 +171,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             page: 1,
-            [action.payload.name]: action.payload.value ? action.payload.value : null
+            [action.payload.name]: action.payload.value
         }
     }
     if (action.type === CLEAR_VALUES) {
@@ -180,6 +182,23 @@ const reducer = (state, action) => {
             latitude: '',
             longitude: '',
             status: 'active',
+        }
+        return {
+            ...state,
+            ...initialState,
+        }
+    }
+    if (action.type === CLEAR_VALUES_DEVICE_DATA) {
+        const initialState = {
+            no2: '',
+            o3: '',
+            so2: '',
+            co: '',
+            temperature: '',
+            humidity: '',
+            pressure: '',
+            pm25: '',
+            pm10: '',
         }
         return {
             ...state,
@@ -262,6 +281,15 @@ const reducer = (state, action) => {
             ...state,
             isLoading: false,
             detailMeasurements: action.payload.detailMeasurements,
+            totalMeasurements: action.payload.totalMeasurements,
+            numOfPages: action.payload.numOfPages,
+        }
+    }
+    if (action.type === GET_ALL_DEVICE_DATA_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            allMeasurements: action.payload.allMeasurements,
             totalMeasurements: action.payload.totalMeasurements,
             numOfPages: action.payload.numOfPages,
         }
