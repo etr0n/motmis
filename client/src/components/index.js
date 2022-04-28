@@ -15,6 +15,8 @@ import Loading from './Loading';
 import ModalDelete from './ModalDelete';
 import Measurement from './Measurement'
 import SearchContainerDeviceDetails from './SearchContainerDeviceDetails'
+import MapMarker from './MapMarker';
+
 
 export {
     Logo,
@@ -34,4 +36,5 @@ export {
     ModalDelete,
     Measurement,
     SearchContainerDeviceDetails,
+    MapMarker,
 }

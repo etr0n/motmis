@@ -26,7 +26,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/map" element={<Map />} />
-
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

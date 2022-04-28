@@ -18,6 +18,25 @@ const createMeasurement = async ({ no2, o3, so2, co, temperature, humidity, pres
         console.log(error);
     }
 }
+const findAllUsersDevices = async () => {
+    try {
+        // const res = await db.query('SELECT id_sensor, name, model, status, latitude, longitude, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10 FROM measurement INNER JOIN sensor on measurement.fk_sensorid_sensor=sensor.id_sensor')
+        const res = await db.query('SELECT id_sensor, name, model, status, latitude, longitude FROM sensor')
+        return res.rows
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const findAllUsersDevicesData = async (id_sensor) => {
+    try {
+        const res = await db.query('SELECT id_sensor, name, model, status, latitude, longitude, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10 FROM measurement INNER JOIN sensor on measurement.fk_sensorid_sensor=sensor.id_sensor where id_sensor=$1', [id_sensor])
+
+        return res.rows
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const find = async ({ createdByUser, status, search }) => {
     let res;
@@ -180,5 +199,10 @@ export {
     removeMeasurement,
     createMeasurement,
     findAllData,
-    countAllSensorData
+    countAllSensorData,
+    findAllUsersDevices,
+
+
+
+    findAllUsersDevicesData
 }

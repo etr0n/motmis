@@ -40,7 +40,12 @@ import {
     CREATE_DEVICE_DATA_SUCCESS,
     CREATE_DEVICE_DATA_ERROR,
     CLEAR_VALUES_DEVICE_DATA,
-    GET_ALL_DEVICE_DATA_SUCCESS
+    GET_ALL_DEVICE_DATA_SUCCESS,
+    GET_ALL_USERS_DEVICES_SUCCESS,
+
+
+    GET_ALL_USERS_DEVICES_DATA_SUCCESS
+
 } from './actions'
 import { initialState } from './appContext'
 
@@ -292,6 +297,20 @@ const reducer = (state, action) => {
             allMeasurements: action.payload.allMeasurements,
             totalMeasurements: action.payload.totalMeasurements,
             numOfPages: action.payload.numOfPages,
+        }
+    }
+    if (action.type === GET_ALL_USERS_DEVICES_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            allUsersDevices: action.payload.allUsersDevices,
+        }
+    }
+    if (action.type === GET_ALL_USERS_DEVICES_DATA_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            allUsersDevicesData: action.payload.allUsersDevicesData,
         }
     }
     if (action.type === SET_DETAILS_DEVICE) {

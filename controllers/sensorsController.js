@@ -15,6 +15,11 @@ import {
     createMeasurement,
     findAllData,
     countAllSensorData,
+    findAllUsersDevices,
+
+
+
+    findAllUsersDevicesData
 } from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
@@ -156,6 +161,35 @@ const deleteSensorData = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: 'Success! Measurement removed' })
 
 }
+const getAllUsersDevices = async (req, res) => {
+    let allUsersDevices = await findAllUsersDevices()
+    // let allUsersDevices = [];
+    // allUsersDevices = result.reduce((r, a) => {
+    //     // console.log("a", a);
+    //     //console.log('r', r);
+    //     r[a.id_sensor] = [...r[a.id_sensor] || [], a];
+    //     return r;
+    // }, {});
+
+
+    res.status(StatusCodes.OK).json({ allUsersDevices })
+}
+
+const getAllUsersDevicesData = async (req, res) => {
+    const { id_sensor } = req.body
+    let allUsersDevicesData = await findAllUsersDevicesData(id_sensor)
+    // let allUsersDevices = [];
+    // allUsersDevices = result.reduce((r, a) => {
+    //     // console.log("a", a);
+    //     //console.log('r', r);
+    //     r[a.id_sensor] = [...r[a.id_sensor] || [], a];
+    //     return r;
+    // }, {});
+
+
+    res.status(StatusCodes.OK).json({ allUsersDevicesData })
+}
+
 const getSensorData = async (req, res) => {
     const { sort } = req.query
 
@@ -230,5 +264,8 @@ export {
     getSensorData,
     deleteSensorData,
     createSensorData,
-    getAllSensorData
+    getAllSensorData,
+    getAllUsersDevices,
+
+    getAllUsersDevicesData
 }

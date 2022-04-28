@@ -42,6 +42,10 @@ import {
     CREATE_DEVICE_DATA_ERROR,
     CLEAR_VALUES_DEVICE_DATA,
     GET_ALL_DEVICE_DATA_SUCCESS,
+    GET_ALL_USERS_DEVICES_SUCCESS,
+
+
+    GET_ALL_USERS_DEVICES_DATA_SUCCESS
 } from './actions'
 import axios from "axios"
 
@@ -79,6 +83,9 @@ const initialState = {
     pm25: '',
     pm10: '',
     sensors: sensors ? JSON.parse(sensors) : [],
+    allUsersDevices: [],
+
+    allUsersDevicesData: [],
     detailMeasurements: [],
     allMeasurements: [],
     totalMeasurements: 0,
@@ -283,6 +290,36 @@ const AppProvider = ({ children }) => {
         }
         clearAlert()
     }
+    const getAllUsersDevices = async () => {
+        dispatch({ type: GET_DEVICES_BEGIN })
+        try {
+            const { data } = await authFetch('/map')
+
+            const { allUsersDevices } = data
+            console.log(allUsersDevices);
+            dispatch({
+                type: GET_ALL_USERS_DEVICES_SUCCESS,
+                payload: { allUsersDevices }
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+    const getAllUsersDevicesData = async (id_sensor) => {
+        dispatch({ type: GET_DEVICES_BEGIN })
+        try {
+            const { data } = await authFetch('/map', id_sensor)
+
+            const { allUsersDevicesData } = data
+
+            dispatch({
+                type: GET_ALL_USERS_DEVICES_DATA_SUCCESS,
+                payload: { allUsersDevicesData }
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
     const getSensors = async () => {
         const { searchName, searchStatus, sort, page } = state
 
@@ -457,6 +494,10 @@ const AppProvider = ({ children }) => {
         createDeviceData,
         clearValuesDeviceData,
         getAllDeviceData,
+        getAllUsersDevices,
+
+
+        getAllUsersDevicesData
     }}>
         {children}
     </AppContext.Provider>
