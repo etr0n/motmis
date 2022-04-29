@@ -162,21 +162,23 @@ const deleteSensorData = async (req, res) => {
 
 }
 const getAllUsersDevices = async (req, res) => {
-    let allUsersDevices = await findAllUsersDevices()
-    // let allUsersDevices = [];
-    // allUsersDevices = result.reduce((r, a) => {
-    //     // console.log("a", a);
-    //     //console.log('r', r);
-    //     r[a.id_sensor] = [...r[a.id_sensor] || [], a];
-    //     return r;
-    // }, {});
+    let result = await findAllUsersDevices()
+    console.log('result', result);
+    let allUsersDevices = [];
+    allUsersDevices = result.reduce((r, a) => {
+        // console.log("a", a);
+        //console.log('r', r);
+        r[a.id_sensor] = [...r[a.id_sensor] || [], a];
+        return r;
+    }, {});
 
 
     res.status(StatusCodes.OK).json({ allUsersDevices })
 }
 
 const getAllUsersDevicesData = async (req, res) => {
-    const { id_sensor } = req.body
+    const { id: id_sensor } = req.params
+    console.log(id_sensor);
     let allUsersDevicesData = await findAllUsersDevicesData(id_sensor)
     // let allUsersDevices = [];
     // allUsersDevices = result.reduce((r, a) => {
@@ -186,7 +188,7 @@ const getAllUsersDevicesData = async (req, res) => {
     //     return r;
     // }, {});
 
-
+    console.log(allUsersDevicesData);
     res.status(StatusCodes.OK).json({ allUsersDevicesData })
 }
 

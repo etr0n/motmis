@@ -44,7 +44,9 @@ import {
     GET_ALL_USERS_DEVICES_SUCCESS,
 
 
-    GET_ALL_USERS_DEVICES_DATA_SUCCESS
+    GET_ALL_USERS_DEVICES_DATA_SUCCESS,
+    SET_DEVICE_MARKER,
+    CLEAR_DEVICE_MARKER,
 
 } from './actions'
 import { initialState } from './appContext'
@@ -313,6 +315,12 @@ const reducer = (state, action) => {
             allUsersDevicesData: action.payload.allUsersDevicesData,
         }
     }
+    if (action.type === SET_DEVICE_MARKER) {
+        return {
+            ...state,
+            deviceMarkerId: action.payload.id_sensor
+        }
+    }
     if (action.type === SET_DETAILS_DEVICE) {
         return {
             ...state,
@@ -409,6 +417,12 @@ const reducer = (state, action) => {
         return {
             ...state,
             sort: "latest"
+        }
+    }
+    if (action.type === CLEAR_DEVICE_MARKER) {
+        return {
+            ...state,
+            deviceMarkerId: ''
         }
     }
     throw new Error(`no such action: ${action.type}`)

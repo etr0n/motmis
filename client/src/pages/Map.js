@@ -1,10 +1,11 @@
 import Menu from "../components/Menu"
-import { MapContainer, TileLayer } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet';
 import { useEffect } from 'react';
 import { useAppContext } from "../context/appContext";
 import MapMarker from './../components/MapMarker';
+import { useState } from 'react';
 
 // delete L.Icon.Default.prototype._getIconUrl;
 
@@ -16,13 +17,22 @@ L.Icon.Default.mergeOptions({
 
 const Map = () => {
 
-    const { allUsersDevices, getAllUsersDevices } = useAppContext()
+    const { allUsersDevices, getAllUsersDevices, allUsersDevicesData, getAllUsersDevicesData, setAllUsersDevicesData } = useAppContext()
+
+    const [marker, setMarker] = useState()
 
     useEffect(() => { //when component loads 
         getAllUsersDevices()
+        getAllUsersDevicesData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    const handleChange = () => {
 
+
+
+        //setState(true)
+
+    }
 
     return (
         <>
@@ -32,9 +42,37 @@ const Map = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {allUsersDevices.map((sensor) => {
-                    console.log(sensor);
+                {/* {allUsersDevices.map((sensor) => {
+                    //console.log(sensor);
                     return <MapMarker key={sensor.id_sensor}{...sensor} />
+                })} */}
+                {Object.keys(allUsersDevices).map(function (key) {
+                    return (
+                        <Marker key={key} position={[allUsersDevices[key].at(0).latitude, allUsersDevices[key].at(0).longitude]} eventHandlers={{ click: () => { setMarker(key) } }}  >
+                            {
+                                Object.keys(allUsersDevices).map(function (key) {
+                                    // console.log('key', key);
+                                    console.log('marker', marker)
+                                    if (key === marker) {
+                                        return (
+                                            <Popup key={key}>
+                                                {allUsersDevices[key].at(0).temperature ? allUsersDevices[key].at(0).temperature : '-'}
+                                                {
+                                                    allUsersDevices[key].map((item) => {
+                                                        return (
+                                                            <Popup>
+                                                                {item.temperature}
+                                                            </Popup>
+                                                        )
+                                                    })}
+                                            </Popup>
+                                        )
+
+                                    }
+                                })
+                            }
+                        </Marker>
+                    )
                 })}
             </MapContainer>
         </>
