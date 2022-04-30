@@ -16,6 +16,7 @@ import ModalDelete from './ModalDelete';
 import Measurement from './Measurement'
 import SearchContainerDeviceDetails from './SearchContainerDeviceDetails'
 import MapMarker from './MapMarker';
+import MapSidebar from './MapSidebar'
 
 
 export {
@@ -37,4 +38,5 @@ export {
     Measurement,
     SearchContainerDeviceDetails,
     MapMarker,
+    MapSidebar,
 }

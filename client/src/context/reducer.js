@@ -47,6 +47,7 @@ import {
     GET_ALL_USERS_DEVICES_DATA_SUCCESS,
     SET_DEVICE_MARKER,
     CLEAR_DEVICE_MARKER,
+    TOGGLE_MAP_SIDEBAR,
 
 } from './actions'
 import { initialState } from './appContext'
@@ -138,6 +139,12 @@ const reducer = (state, action) => {
         return {
             ...state,
             showSidebar: !state.showSidebar,
+        }
+    }
+    if (action.type === TOGGLE_MAP_SIDEBAR) {
+        return {
+            ...state,
+            showMapSidebar: !state.showMapSidebar,
         }
     }
     if (action.type === LOGOUT_USER) {

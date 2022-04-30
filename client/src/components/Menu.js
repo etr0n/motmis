@@ -27,7 +27,6 @@ const Menu = () => {
                         Register
                     </Link>
                 </div>
-
             </div>
         </NavbarWrapper>
     )

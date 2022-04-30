@@ -48,6 +48,7 @@ import {
     GET_ALL_USERS_DEVICES_DATA_SUCCESS,
     SET_DEVICE_MARKER,
     CLEAR_DEVICE_MARKER,
+    TOGGLE_MAP_SIDEBAR,
 } from './actions'
 import axios from "axios"
 
@@ -67,6 +68,7 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     token: token,
     showSidebar: false,
+    showMapSidebar: false,
     detailsDeviceId: detailsDeviceId,
     editDeviceId: editDeviceId,
     statusOptions: ["active", "offline"],
@@ -203,7 +205,9 @@ const AppProvider = ({ children }) => {
     const toggleSidebar = () => {
         dispatch({ type: TOGGLE_SIDEBAR })
     }
-
+    const toggleMapSidebar = () => {
+        dispatch({ type: TOGGLE_MAP_SIDEBAR })
+    }
     const logoutUser = () => {
         dispatch({ type: LOGOUT_USER })
         removeUserFromLocalStorage()
@@ -517,6 +521,7 @@ const AppProvider = ({ children }) => {
         getAllUsersDevicesData,
         setAllUsersDevicesData,
         setAllUsersDevicesDataToEmpty,
+        toggleMapSidebar
     }}>
         {children}
     </AppContext.Provider>
