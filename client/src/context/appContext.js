@@ -205,8 +205,8 @@ const AppProvider = ({ children }) => {
     const toggleSidebar = () => {
         dispatch({ type: TOGGLE_SIDEBAR })
     }
-    const toggleMapSidebar = () => {
-        dispatch({ type: TOGGLE_MAP_SIDEBAR })
+    const toggleMapSidebar = (key) => {
+        dispatch({ type: TOGGLE_MAP_SIDEBAR, payload: { key } })
     }
     const logoutUser = () => {
         dispatch({ type: LOGOUT_USER })
@@ -317,13 +317,7 @@ const AppProvider = ({ children }) => {
         dispatch({ type: SET_DEVICE_MARKER, payload: { id_sensor } })
     }
 
-    //nereikalingas
-    const setAllUsersDevicesDataToEmpty = () => {
-        dispatch({ type: CLEAR_DEVICE_MARKER })
-    }
     const getAllUsersDevicesData = async () => {
-        const { deviceMarkerId } = state
-        //console.log(deviceMarkerId);
 
         dispatch({ type: GET_DEVICES_BEGIN })
         try {
@@ -520,7 +514,6 @@ const AppProvider = ({ children }) => {
 
         getAllUsersDevicesData,
         setAllUsersDevicesData,
-        setAllUsersDevicesDataToEmpty,
         toggleMapSidebar
     }}>
         {children}

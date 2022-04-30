@@ -145,7 +145,9 @@ const reducer = (state, action) => {
         return {
             ...state,
             showMapSidebar: !state.showMapSidebar,
+            deviceMarkerId: !state.showMapSidebar ? action.payload.key : null,
         }
+
     }
     if (action.type === LOGOUT_USER) {
         return {

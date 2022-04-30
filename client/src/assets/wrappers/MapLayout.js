@@ -1,25 +1,21 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.section`
-
-  .dashboard {
-    display: grid;
-    grid-template-columns: 1fr;
-     
-  }
-  .dashboard-page {
-   
-    width: 100vw;
-    margin: 0 auto;
-   // padding: 2rem 0;
-  }
-  @media (min-width: 992px) {
-    .dashboard {
-      grid-template-columns: auto 1fr;
-    }
-    .dashboard-page {
-      width: 100%;
-    }
-  }
+.container {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.updated-time {
+  position: absolute;
+  top: 15px;
+  left: 100px;
+}
+ .legend, .updated-time {
+  z-index: 400;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.72);
+}
 `
 export default Wrapper

@@ -31,52 +31,29 @@ const Map = () => {
 
     return (
         <Wrapper>
-            <main className="dashboard">
+            <div>
+                <Menu />
                 <MapSidebar />
-                <div >
-                    <Menu />
-                    <div className="dashboard-page">
-                        <MapContainer center={[55.606028440387156, 23.95855713856371]} zoom={7} minZoom={3} maxZoom={17} scrollWheelZoom={true}  >
-                            <TileLayer
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            {/* {allUsersDevices.map((sensor) => {
+                <div>
+                    <MapContainer center={[55.606028440387156, 23.95855713856371]} zoom={7} minZoom={3} maxZoom={17} scrollWheelZoom={true} className={"leaflet-container"} >
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        {/* {allUsersDevices.map((sensor) => {
                     //console.log(sensor);
                     return <MapMarker key={sensor.id_sensor}{...sensor} />
                 })} */}
-                            {Object.keys(allUsersDevices).map(function (key) {
-                                return (
-                                    <Marker key={key} position={[allUsersDevices[key].at(0).latitude, allUsersDevices[key].at(0).longitude]} eventHandlers={{ click: () => { setMarker(key); toggleMapSidebar() } }}  >
-                                        {
-                                            Object.keys(allUsersDevices).map(function (key) {
-                                                // console.log('key', key);
-                                                console.log('marker', marker)
-                                                if (key === marker) {
-                                                    return (
-                                                        <Popup key={key}>
-                                                            {allUsersDevices[key].at(0).temperature ? allUsersDevices[key].at(0).temperature : '-'}
-                                                            {
-                                                                allUsersDevices[key].map((item) => {
-                                                                    return (
-                                                                        <Popup>
-                                                                            {item.temperature}
-                                                                        </Popup>
-                                                                    )
-                                                                })}
-                                                        </Popup>
-                                                    )
-
-                                                }
-                                            })
-                                        }
-                                    </Marker>
-                                )
-                            })}
-                        </MapContainer>
-                    </div>
+                        <div className="updated-time">Last updated (time)</div>
+                        {Object.keys(allUsersDevices).map(function (key) {
+                            return (
+                                <Marker key={key} position={[allUsersDevices[key].at(0).latitude, allUsersDevices[key].at(0).longitude]} eventHandlers={{ click: () => { setMarker(key); toggleMapSidebar(key) } }}  >
+                                </Marker>
+                            )
+                        })}
+                    </MapContainer>
                 </div>
-            </main>
+            </div>
         </Wrapper>
     )
 }

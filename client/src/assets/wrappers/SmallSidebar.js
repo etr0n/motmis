@@ -20,6 +20,7 @@ const Wrapper = styled.aside`
     opacity: 1;
   }
   .content {
+    width: 90vw;
     background: var(--white);
     width: var(--fluid-width);
     height: 95vh;

@@ -60,7 +60,7 @@ html {
   --transition: 0.3s ease-in-out all;
   --max-width: 1120px;
   --fixed-width: 500px;
-  --fluid-width: 90vw;
+   --fluid-width: 90vw; 
   --breakpoint-lg: 992px;
   --nav-height: 6rem;
   /* box shadow*/
@@ -144,6 +144,7 @@ ul {
 .leaflet-container {
     width: 100vw;
     height: 89vh;
+    overflow: hidden;
 }
 
 .img {
@@ -297,7 +298,7 @@ ul {
 }
 
 .container {
-  width: var(--fluid-width);
+  /* width: var(--fluid-width); */
   max-width: var(--max-width);
   margin: 0 auto;
 }
