@@ -16,10 +16,6 @@ import {
     findAllData,
     countAllSensorData,
     findAllUsersDevices,
-
-
-
-    findAllUsersDevicesData
 } from '../queries/Sensor.js'
 
 const createSensor = async (req, res) => {
@@ -175,23 +171,6 @@ const getAllUsersDevices = async (req, res) => {
 
     res.status(StatusCodes.OK).json({ allUsersDevices })
 }
-
-const getAllUsersDevicesData = async (req, res) => {
-    const { id: id_sensor } = req.params
-    console.log(id_sensor);
-    let allUsersDevicesData = await findAllUsersDevicesData(id_sensor)
-    // let allUsersDevices = [];
-    // allUsersDevices = result.reduce((r, a) => {
-    //     // console.log("a", a);
-    //     //console.log('r', r);
-    //     r[a.id_sensor] = [...r[a.id_sensor] || [], a];
-    //     return r;
-    // }, {});
-
-    console.log(allUsersDevicesData);
-    res.status(StatusCodes.OK).json({ allUsersDevicesData })
-}
-
 const getSensorData = async (req, res) => {
     const { sort } = req.query
 
@@ -268,6 +247,4 @@ export {
     createSensorData,
     getAllSensorData,
     getAllUsersDevices,
-
-    getAllUsersDevicesData
 }

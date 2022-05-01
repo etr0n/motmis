@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.aside`
+
 .sidebar {
     z-index: 1001;
     position: absolute;
@@ -34,10 +35,7 @@ const Wrapper = styled.aside`
     cursor: pointer;
     user-select: none;
 }
-/* 
-.sidebar .closeBtn button:hover {
-    background-color: var(--primary-200);
-} */
+
 
 .sidebar table {
     border-collapse: separate;
@@ -59,9 +57,9 @@ const Wrapper = styled.aside`
     text-align: left;
 }
 
-.sidebar table th:first-child {
+/* .sidebar table th:first-child {
     width: 50%;
-}
+} */
 
 .sidebar table tr.headers {
     background-color: #446666;
@@ -113,5 +111,6 @@ const Wrapper = styled.aside`
     font-size: 1em;
     color: #3d564c;
 }
+
 `
 export default Wrapper

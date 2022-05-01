@@ -43,15 +43,9 @@ import {
     CLEAR_VALUES_DEVICE_DATA,
     GET_ALL_DEVICE_DATA_SUCCESS,
     GET_ALL_USERS_DEVICES_SUCCESS,
-
-
-    GET_ALL_USERS_DEVICES_DATA_SUCCESS,
-    SET_DEVICE_MARKER,
-    CLEAR_DEVICE_MARKER,
     TOGGLE_MAP_SIDEBAR,
 } from './actions'
 import axios from "axios"
-
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -88,10 +82,7 @@ const initialState = {
     pm10: '',
     sensors: sensors ? JSON.parse(sensors) : [],
     allUsersDevices: [],
-
     deviceMarkerId: '',
-    allUsersDevicesData: [],
-
     detailMeasurements: [],
     allMeasurements: [],
     totalMeasurements: 0,
@@ -313,28 +304,6 @@ const AppProvider = ({ children }) => {
             console.log(error.response);
         }
     }
-    const setAllUsersDevicesData = (id_sensor) => {
-        dispatch({ type: SET_DEVICE_MARKER, payload: { id_sensor } })
-    }
-
-    const getAllUsersDevicesData = async () => {
-
-        dispatch({ type: GET_DEVICES_BEGIN })
-        try {
-
-            const { data } = await authFetch('/map')
-            const { allUsersDevicesData } = data
-            //console.log(allUsersDevicesData);
-            dispatch({
-                type: GET_ALL_USERS_DEVICES_DATA_SUCCESS,
-                payload: { allUsersDevicesData }
-            })
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     const getSensors = async () => {
         const { searchName, searchStatus, sort, page } = state
 
@@ -510,10 +479,6 @@ const AppProvider = ({ children }) => {
         clearValuesDeviceData,
         getAllDeviceData,
         getAllUsersDevices,
-
-
-        getAllUsersDevicesData,
-        setAllUsersDevicesData,
         toggleMapSidebar
     }}>
         {children}

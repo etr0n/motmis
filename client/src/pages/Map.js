@@ -18,17 +18,18 @@ L.Icon.Default.mergeOptions({
 
 const Map = () => {
 
-    const { allUsersDevices, getAllUsersDevices, allUsersDevicesData, getAllUsersDevicesData, setAllUsersDevicesData, toggleMapSidebar
+    const {
+        allUsersDevices,
+        getAllUsersDevices,
+        toggleMapSidebar
     } = useAppContext()
+
     const [marker, setMarker] = useState()
 
-    useEffect(() => { //when component loads 
+    useEffect(() => {
         getAllUsersDevices()
-        getAllUsersDevicesData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-
     return (
         <Wrapper>
             <div>
@@ -40,10 +41,6 @@ const Map = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {/* {allUsersDevices.map((sensor) => {
-                    //console.log(sensor);
-                    return <MapMarker key={sensor.id_sensor}{...sensor} />
-                })} */}
                         <div className="updated-time">Last updated (time)</div>
                         {Object.keys(allUsersDevices).map(function (key) {
                             return (

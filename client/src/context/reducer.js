@@ -42,11 +42,6 @@ import {
     CLEAR_VALUES_DEVICE_DATA,
     GET_ALL_DEVICE_DATA_SUCCESS,
     GET_ALL_USERS_DEVICES_SUCCESS,
-
-
-    GET_ALL_USERS_DEVICES_DATA_SUCCESS,
-    SET_DEVICE_MARKER,
-    CLEAR_DEVICE_MARKER,
     TOGGLE_MAP_SIDEBAR,
 
 } from './actions'
@@ -317,19 +312,6 @@ const reducer = (state, action) => {
             allUsersDevices: action.payload.allUsersDevices,
         }
     }
-    if (action.type === GET_ALL_USERS_DEVICES_DATA_SUCCESS) {
-        return {
-            ...state,
-            isLoading: false,
-            allUsersDevicesData: action.payload.allUsersDevicesData,
-        }
-    }
-    if (action.type === SET_DEVICE_MARKER) {
-        return {
-            ...state,
-            deviceMarkerId: action.payload.id_sensor
-        }
-    }
     if (action.type === SET_DETAILS_DEVICE) {
         return {
             ...state,
@@ -426,12 +408,6 @@ const reducer = (state, action) => {
         return {
             ...state,
             sort: "latest"
-        }
-    }
-    if (action.type === CLEAR_DEVICE_MARKER) {
-        return {
-            ...state,
-            deviceMarkerId: ''
         }
     }
     throw new Error(`no such action: ${action.type}`)

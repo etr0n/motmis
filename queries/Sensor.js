@@ -20,24 +20,12 @@ const createMeasurement = async ({ no2, o3, so2, co, temperature, humidity, pres
 }
 const findAllUsersDevices = async () => {
     try {
-        const res = await db.query('SELECT id_sensor, name, model, status, latitude, longitude, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10 FROM measurement RIGHT JOIN sensor on measurement.fk_sensorid_sensor=sensor.id_sensor')
-        //const res = await db.query('SELECT id_sensor, name, model, status, latitude, longitude FROM sensor')
+        const res = await db.query('SELECT id_sensor, name, model, status, latitude, longitude, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10, time FROM measurement RIGHT JOIN sensor on measurement.fk_sensorid_sensor=sensor.id_sensor ORDER BY time DESC')
         return res.rows
     } catch (error) {
         console.log(error);
     }
 }
-
-const findAllUsersDevicesData = async (id_sensor) => {
-    try {
-        const res = await db.query('SELECT id_sensor, id_measurement, time, name, model, status, latitude, longitude, no2, o3, so2, co, temperature, humidity, pressure, pm25, pm10 FROM measurement INNER JOIN sensor on measurement.fk_sensorid_sensor=sensor.id_sensor where id_sensor=$1 ORDER BY time DESC', [id_sensor])
-
-        return res.rows
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 const find = async ({ createdByUser, status, search }) => {
     let res;
     try {
@@ -201,8 +189,4 @@ export {
     findAllData,
     countAllSensorData,
     findAllUsersDevices,
-
-
-
-    findAllUsersDevicesData
 }
