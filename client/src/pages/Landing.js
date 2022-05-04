@@ -1,6 +1,6 @@
 import main from '../assets/images/main.svg'
 import Wrapper from "../assets/wrappers/LandingPage";
-import Menu from './../components/Menu';
+import Menu from '../components/MainMenu';
 
 const Landing = () => {
     return (

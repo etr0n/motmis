@@ -3,7 +3,7 @@ import { Logo, FormRow, Alert } from '../components'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { useAppContext } from '../context/appContext'
 import { useNavigate } from 'react-router-dom'
-import Menu from './../components/Menu'
+import Menu from '../components/MainMenu'
 
 const initialState = {
     name: '',

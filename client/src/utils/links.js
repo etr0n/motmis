@@ -1,6 +1,7 @@
 import { FaWifi } from "react-icons/fa";
 import { AiTwotoneNotification, AiOutlineUser } from "react-icons/ai"
 import { RiListUnordered } from "react-icons/ri"
+import { BsPinMapFill } from "react-icons/bs"
 
 const links = [
     {
@@ -30,6 +31,13 @@ const links = [
         path: "/profile",
         otherPaths: [],
         icon: <AiOutlineUser />
+    },
+    {
+        id: 5,
+        text: "map",
+        path: "/map",
+        otherPaths: [],
+        icon: <BsPinMapFill />
     },
 ]
 

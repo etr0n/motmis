@@ -1,4 +1,4 @@
-import Menu from "../components/Menu"
+import Menu from "../components/MainMenu"
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet"
 //import 'leaflet/dist/leaflet.css'
 import L from 'leaflet';
@@ -21,7 +21,8 @@ const Map = () => {
     const {
         allUsersDevices,
         getAllUsersDevices,
-        toggleMapSidebar
+        toggleMapSidebar,
+        user
     } = useAppContext()
 
     const [marker, setMarker] = useState()
@@ -33,7 +34,8 @@ const Map = () => {
     return (
         <Wrapper>
             <div>
-                <Menu />
+                {/* {user ? <Menu /> : "not logged in"} */}
+                    < Menu />
                 <MapSidebar />
                 <div>
                     <MapContainer center={[55.606028440387156, 23.95855713856371]} zoom={7} minZoom={3} maxZoom={17} scrollWheelZoom={true} className={"leaflet-container"} >
