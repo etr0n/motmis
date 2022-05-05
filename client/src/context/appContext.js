@@ -290,16 +290,19 @@ const AppProvider = ({ children }) => {
         clearAlert()
     }
     const getAllUsersDevices = async () => {
-        dispatch({ type: GET_DEVICES_BEGIN })
+        //dispatch({ type: GET_DEVICES_BEGIN })
         try {
             const { data } = await authFetch('/map')
 
-            const { allUsersDevices } = data
-            console.log(allUsersDevices);
-            dispatch({
-                type: GET_ALL_USERS_DEVICES_SUCCESS,
-                payload: { allUsersDevices }
-            })
+            // const { allUsersDevices } = data
+            // console.log("awaited in all users devices")
+
+            // console.log(allUsersDevices);
+            // dispatch({
+            //     type: GET_ALL_USERS_DEVICES_SUCCESS,
+            //     payload: { allUsersDevices }
+            // })
+            return data;
         } catch (error) {
             console.log(error.response);
         }
