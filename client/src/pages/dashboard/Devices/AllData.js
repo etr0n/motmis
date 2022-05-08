@@ -52,7 +52,7 @@ const AllData = () => {
                 <Grid item xs={6} md={6}>
                     <h4>No measurements to display...</h4>
                 </Grid>
-                <Grid item xs={6} md={6}>
+                {/* <Grid item xs={6} md={6}>
                     <Box display="flex" justifyContent="flex-end">
                         <Link
                             to={`/add-device-data/${detailsDeviceId}`}
@@ -61,7 +61,7 @@ const AllData = () => {
                             Add data
                         </Link>
                     </Box>
-                </Grid>
+                </Grid> */}
             </Grid>
         </Wrapper>
     }
@@ -73,7 +73,7 @@ const AllData = () => {
                     <Grid item xs={6} md={6}>
                         <h5>{totalMeasurements} measurement{measurements.length > 1 && 's'} found</h5>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    {/* <Grid item xs={6} md={6}>
                         <Box display="flex" justifyContent="flex-end">
                             <Link
                                 to={`/add-device-data/${detailsDeviceId}`}
@@ -82,7 +82,7 @@ const AllData = () => {
                                 Add data
                             </Link>
                         </Box>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
                 <TableWrapper>
                     <TableContainer component={Paper}>

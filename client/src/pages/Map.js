@@ -81,7 +81,7 @@ const Map = () => {
     const map = useRef(null)
     const [lng, setLng] = useState(23.917754)
     const [lat, setLat] = useState(54.898871)
-    const [zoom, setZoom] = useState(9)
+    const [zoom, setZoom] = useState(11)
     const [sensorId, setSensorId] = useState(false)
     const [allUsersDevices, SetallUsersDevices] = useState(false)
     const [selectMapPoint, setSelectMapPoint] = useState(false)
@@ -378,9 +378,9 @@ const Map = () => {
                     <div className="sidebar">
                         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                     </div>
-                    <button className='btn enable-map-click' onClick={() => setSelectMapPoint(!selectMapPoint)}>
+                    {/* <button className='btn enable-map-click' onClick={() => setSelectMapPoint(!selectMapPoint)}>
                         {selectMapPoint ? 'disable points on map' : 'set points on map'}
-                    </button>
+                    </button> */}
                     <div ref={mapContainer} className="map-container" >
 
                     </div>
