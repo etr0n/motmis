@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { BadRequestError, NotFoundError } from '../errors/index.js'
 import checkPermissions from './../utils/checkPermissions.js'
+import mailgun from 'mailgun-js'
 import {
     create,
     find,
@@ -17,6 +18,16 @@ import {
     countAllSensorData,
     findAllUsersDevices,
 } from '../queries/Sensor.js'
+
+// const apiKey = 'your api key here';
+// const domain = 'your domain here';
+
+const mg = mailgun({
+    apiKey: '9d94f4d1ba75660c5e8df78de43c48ac-100b5c8d-3cc73a28',
+    domain: 'sandbox8c052ced535745c38f52a73c533a566d.mailgun.org',
+
+})
+
 
 const createSensor = async (req, res) => {
     const { name, model, latitude, longitude, status } = req.body
@@ -57,6 +68,20 @@ const createSensorData = async (req, res) => {
     }
     if (!pm10) {
         req.body.pm10 = null
+    }
+
+    if (no2 > 3) {
+        console.log('no2 virsija');
+        const data = {
+            from: 'Excited User <me@samples.mailgun.org>',
+            to: 'nortenavi@gmail.com',
+            subject: 'Hello from Mailgun',
+            text: 'hello'
+        }
+        mg.messages().send(data, function (error, body) {
+            console.log(body);
+            console.log(error)
+        });
     }
     const measurement = await createMeasurement(req.body)
     res.status(StatusCodes.CREATED).json({ measurement })
