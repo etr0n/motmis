@@ -1,67 +1,3 @@
-// import Menu from "../components/MainMenu"
-// import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet"
-// //import 'leaflet/dist/leaflet.css'
-// import L from 'leaflet';
-// import { useEffect } from 'react';
-// import { useAppContext } from "../context/appContext";
-// import { useState } from 'react';
-// import Wrapper from '../../src/assets/wrappers/MapLayout'
-// import MapSidebar from './../components/MapSidebar';
-
-// // delete L.Icon.Default.prototype._getIconUrl;
-
-// L.Icon.Default.mergeOptions({
-//     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-//     iconUrl: require('leaflet/dist/images/marker-icon.png'),
-//     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-// });
-
-// const Map = () => {
-
-//     const {
-//         allUsersDevices,
-//         getAllUsersDevices,
-//         toggleMapSidebar,
-//         user
-//     } = useAppContext()
-
-//     const [marker, setMarker] = useState()
-
-//     useEffect(() => {
-//         getAllUsersDevices()
-
-//         // eslint-disable-next-line react-hooks/exhaustive-deps
-//     }, [])
-//     return (
-//         <Wrapper>
-//             <div>
-//                 < Menu />
-//                 <MapSidebar />
-//                 <div>
-//                     <MapContainer center={[55.606028440387156, 23.95855713856371]} zoom={7} minZoom={3} maxZoom={17} scrollWheelZoom={true} className={"leaflet-container"} >
-//                         <TileLayer
-//                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-//                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//                         />
-//                         {console.log(allUsersDevices)}
-//                         <div className="updated-time">Last updated (time)</div>
-//                         {Object.keys(allUsersDevices).map(function (key) {
-//                             return (
-//                                 <Marker key={key} position={[allUsersDevices[key].at(0).latitude, allUsersDevices[key].at(0).longitude]} eventHandlers={{ click: () => { setMarker(key); toggleMapSidebar(key) } }}  >
-//                                 </Marker>
-//                             )
-//                         })}
-//                     </MapContainer>
-//                 </div>
-//             </div>
-//         </Wrapper>
-
-
-//     )
-// }
-
-// export default Map
-
 import MapWrapper from '../../src/assets/wrappers/Map'
 import MapSidebar from './../components/MapSidebar';
 import ReactDOM from "react-dom";
@@ -79,12 +15,14 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZXRyb29uIiwiYSI6ImNsMnJ5OTZzaTBjZnQzam80YW13Z
 const Map = () => {
     const mapContainer = useRef(null)
     const map = useRef(null)
+    const directions = useRef(null)
+
     const [lng, setLng] = useState(23.917754)
     const [lat, setLat] = useState(54.898871)
     const [zoom, setZoom] = useState(11)
     const [sensorId, setSensorId] = useState(false)
     const [allUsersDevices, SetallUsersDevices] = useState(false)
-    const [selectMapPoint, setSelectMapPoint] = useState(false)
+    const [directionsEnabled, setDirectionsEnabled] = useState(false)
     const {
         // allUsersDevices,
         getAllUsersDevices,
@@ -179,8 +117,8 @@ const Map = () => {
                 zoom: zoom
             })
 
-            let directions;
-            directions = new MapboxDirections({
+
+            directions.current = new MapboxDirections({
                 accessToken: mapboxgl.accessToken,
                 unit: 'metric',
                 profile: 'mapbox/walking',
@@ -201,7 +139,7 @@ const Map = () => {
                     .addTo(map.current)
             })
 
-            map.current.addControl(directions, 'top-left');
+            //map.current.addControl(directions, 'top-left');
 
             map.current.on('move', () => {
 
@@ -284,7 +222,7 @@ const Map = () => {
 
 
 
-            directions.on('clear', () => {
+            directions.current.on('clear', () => {
                 map.current.setLayoutProperty('theRoute', 'visibility', 'none');
                 map.current.setLayoutProperty('theBox', 'visibility', 'none');
 
@@ -293,7 +231,7 @@ const Map = () => {
             });
 
 
-            directions.on('route', (event) => {
+            directions.current.on('route', (event) => {
                 // Hide the route and box by setting the opacity to zero
                 map.current.setLayoutProperty('theRoute', 'visibility', 'none');
                 map.current.setLayoutProperty('theBox', 'visibility', 'none');
@@ -351,7 +289,7 @@ const Map = () => {
 
                             // Add a randomly selected waypoint to get a new route from the Directions API
                             const randomWaypoint = turf.randomPoint(1, { bbox: bbox });
-                            directions.setWaypoint(
+                            directions.current.setWaypoint(
                                 0,
                                 randomWaypoint['features'][0].geometry.coordinates
                             );
@@ -363,11 +301,21 @@ const Map = () => {
             });
 
         }); //after data
+    }, [])
+
+    function toggleDirections() {
+        if (!map.current || !directions.current) return;
+
+        if (directionsEnabled) {
+            map.current.removeControl(directions.current);
+            setDirectionsEnabled(false);
+        } else {
+            setDirectionsEnabled(true);
+            map.current.addControl(directions.current, 'top-left');
+        }
 
 
-    }, [selectMapPoint])
-
-
+    }
     return (
         <>
             < Menu />
@@ -378,11 +326,10 @@ const Map = () => {
                     <div className="sidebar">
                         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                     </div>
-                    {/* <button className='btn enable-map-click' onClick={() => setSelectMapPoint(!selectMapPoint)}>
-                        {selectMapPoint ? 'disable points on map' : 'set points on map'}
-                    </button> */}
-                    <div ref={mapContainer} className="map-container" >
-
+                    <button className='btn enable-map-click' onClick={() => toggleDirections()}>
+                        {directionsEnabled ? 'disable points on map' : 'set points on map'}
+                    </button>
+                    <div ref={mapContainer} className="map-container">
                     </div>
                 </div>
             </MapWrapper>

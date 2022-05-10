@@ -17,7 +17,8 @@ import Measurement from './Measurement'
 import SearchContainerDeviceDetails from './SearchContainerDeviceDetails'
 import MapMarker from './MapMarker';
 import MapSidebar from './MapSidebar'
-
+import Subscription from './Subscription'
+import SearchContainerSubscriptions from './SearchContainerSubscriptions'
 
 export {
     Logo,
@@ -39,4 +40,6 @@ export {
     SearchContainerDeviceDetails,
     MapMarker,
     MapSidebar,
+    Subscription,
+    SearchContainerSubscriptions,
 }

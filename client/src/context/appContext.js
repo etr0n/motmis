@@ -44,6 +44,13 @@ import {
     GET_ALL_DEVICE_DATA_SUCCESS,
     GET_ALL_USERS_DEVICES_SUCCESS,
     TOGGLE_MAP_SIDEBAR,
+
+    CREATE_SUBSCRIPTION_BEGIN,
+    CREATE_SUBSCRIPTION_SUCCESS,
+    CREATE_SUBSCRIPTION_ERROR,
+    GET_SUBSCRIPTIONS_BEGIN,
+    GET_ALL_SUBSCRIPTIONS_SUCCESS,
+    DELETE_SUBSCRIPTION_BEGIN
 } from './actions'
 import axios from "axios"
 
@@ -87,6 +94,8 @@ const initialState = {
     allMeasurements: [],
     totalMeasurements: 0,
     totalSensors: 0,
+    allSubscriptions: [],
+    totalSubscriptions: 0,
     numOfPages: 1,
     page: 1,
     stats: {}, //returning object from server
@@ -95,6 +104,8 @@ const initialState = {
     searchStatus: 'all',
     sort: 'latest',
     sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+    sortSubscription: 'a-z',
+    sortOptionsSubscription: ['a-z', 'z-a'],
 }
 
 const AppContext = React.createContext()
@@ -243,6 +254,33 @@ const AppProvider = ({ children }) => {
             type: CLEAR_VALUES_DEVICE_DATA
         })
     }
+    const createSubscription = async (sensorId, name, latitude, longitude) => {
+        dispatch({
+            type: CREATE_SUBSCRIPTION_BEGIN
+        })
+
+        try {
+            const { user } = state
+            const { id } = user
+
+            await authFetch.post('/map', {
+                sensorId,
+                userId: id,
+                name,
+                latitude,
+                longitude,
+            })
+            dispatch({ type: CREATE_SUBSCRIPTION_SUCCESS })
+            // dispatch({ type: CLEAR_VALUES })
+        } catch (error) {
+            if (error.response.status === 401) return
+            dispatch({
+                type: CREATE_SUBSCRIPTION_ERROR,
+                payload: { msg: error.response.data.msg }
+            })
+        }
+        clearAlert()
+    }
     const createDevice = async () => {
         dispatch({
             type: CREATE_DEVICE_BEGIN
@@ -362,6 +400,29 @@ const AppProvider = ({ children }) => {
             //logoutUser()
         }
     }
+    const getAllSubscriptions = async () => {
+        const { sortSubscription, page } = state
+
+        let url = `/subscriptions?page=${page}&sortSubscription=${sortSubscription}`
+
+        dispatch({ type: GET_SUBSCRIPTIONS_BEGIN })
+        try {
+            const { data } = await authFetch(url)
+            console.log(data);
+            const { allSubscriptions, numOfPages, totalSubscriptions } = data
+            console.log(allSubscriptions);
+            dispatch({
+                type: GET_ALL_SUBSCRIPTIONS_SUCCESS,
+                payload: {
+                    allSubscriptions, numOfPages, totalSubscriptions
+                }
+            })
+        } catch (error) {
+            //if we hit 401 auth err & 500 we just log out user
+            console.log(error.response);
+            //logoutUser()
+        }
+    }
     const getAllDeviceData = async () => {
         const { sort, page } = state
 
@@ -370,9 +431,9 @@ const AppProvider = ({ children }) => {
         dispatch({ type: GET_DEVICE_DATA_BEGIN })
         try {
             const { data } = await authFetch(url)
-            console.log(data);
+            // console.log(data);
             const { allMeasurements, numOfPages, totalMeasurements } = data
-            console.log(allMeasurements);
+            // console.log(allMeasurements);
             dispatch({
                 type: GET_ALL_DEVICE_DATA_SUCCESS,
                 payload: {
@@ -430,6 +491,16 @@ const AppProvider = ({ children }) => {
             //logoutUser()
         }
     }
+    const deleteSubscription = async (id) => {
+        dispatch({ type: DELETE_SUBSCRIPTION_BEGIN })
+        try {
+            await authFetch.delete(`/subscriptions/${id}`)
+            getAllSubscriptions()
+        } catch (error) {
+            console.log(error.response);
+            //logoutUser()
+        }
+    }
     const showStats = async () => {
         dispatch({ type: SHOW_STATS_BEGIN })
         try {
@@ -482,7 +553,12 @@ const AppProvider = ({ children }) => {
         clearValuesDeviceData,
         getAllDeviceData,
         getAllUsersDevices,
-        toggleMapSidebar
+        toggleMapSidebar,
+
+
+        createSubscription,
+        getAllSubscriptions,
+        deleteSubscription
     }}>
         {children}
     </AppContext.Provider>

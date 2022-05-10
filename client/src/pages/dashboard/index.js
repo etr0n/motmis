@@ -3,7 +3,6 @@ import Profile from "./Profile/Profile"
 import SharedLayout from "./SharedLayout";
 import Devices from './Devices/Devices';
 import Subscriptions from "./Subscriptions/Subscriptions";
-import AddSubscription from "./Subscriptions/AddSubscription";
 import EditDevice from "./Devices/EditDevice"
 import AddDeviceData from './Devices/AddDeviceData';
 import DetailsDevice from "./Devices/DetailsDevice";
@@ -15,7 +14,6 @@ export {
     SharedLayout,
     Devices,
     Subscriptions,
-    AddSubscription,
     EditDevice,
     AddDeviceData,
     DetailsDevice,

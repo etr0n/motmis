@@ -1,4 +1,4 @@
-import Wrapper from '../../src/assets/wrappers/MapSidebar'
+import Wrapper from '../assets/wrappers/MapSidebar'
 import { useAppContext } from "../context/appContext";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -8,11 +8,12 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
-import TableWrapper from "../../src/assets/wrappers/DeviceList";
+import TableWrapper from "../assets/wrappers/DeviceList";
 import moment from 'moment'
+import Alert from './Alert'
 
 const MapSidebar = (device) => {
-    const { showMapSidebar, toggleMapSidebar } = useAppContext()
+    const { showMapSidebar, toggleMapSidebar, createSubscription, showAlert } = useAppContext()
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -60,12 +61,14 @@ const MapSidebar = (device) => {
         <Wrapper>
             <div className={showMapSidebar ? "sidebar" : "sidebar hidden"}>
                 <div className="container">
-                    <div className="closeBtn">
+                    <div className="closeBtn-container">
+                        {showAlert && <Alert />}
                         <button className='btn btn-hero' onClick={toggleMapSidebar}>close</button>
-                        <br />
+                        <button className='btn btn-hero' onClick={() => createSubscription(device.data.at(0).id_sensor, device.data.at(0).name, device.data.at(0).latitude, device.data.at(0).longitude)}>subscribe</button>
                     </div>
-
                     <h4 >
+                        Device name: {device.data.at(0).name ? device.data.at(0).name : '-'}
+                        <br />
                         Device ID: {device.data.at(0).id_sensor ? device.data.at(0).id_sensor : '-'}
                         <br />
                         Last updated: {formatDate()}{formatTime()}
@@ -121,6 +124,9 @@ const MapSidebar = (device) => {
                             </TableBody>
                         </Table>
                     </TableWrapper>
+                    <h4 >
+                        GRAPH HERE
+                    </h4>
                 </div>
             </div>
         </Wrapper >

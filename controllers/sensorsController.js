@@ -159,7 +159,7 @@ const deleteSensorData = async (req, res) => {
 }
 const getAllUsersDevices = async (req, res) => {
     let result = await findAllUsersDevices()
-    console.log('result', result);
+    //console.log('result', result);
     let allUsersDevices = [];
     allUsersDevices = result.reduce((r, a) => {
         // console.log("a", a);

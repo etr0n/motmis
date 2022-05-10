@@ -11,7 +11,7 @@ const Wrapper = styled.aside`
     max-height: 100vh;
     background: rgb(255,255,255);
     background: linear-gradient(90deg, rgba(255,255,255,0.76) 25%, rgba(255,255,255,0.7595413165266106) 49%, rgba(255,255,255,0.76) 75%);
-    overflow-y: scroll;
+    //overflow-y: scroll;
 }
 
 .sidebar .container {
@@ -25,17 +25,24 @@ const Wrapper = styled.aside`
 }
 
 .sidebar .closeBtn {
-    width: 100%;
+    /* width: 50%;
+    margin-bottom: 50px; */
+     //display:grid;
+    /* width: 100%; */
+    //padding: 10px;
+    //cursor: pointer;
+    //user-select: none;
+}
+
+.sidebar .closeBtn-container button {
+flex-direction: row;
+  flex-wrap: wrap;
+  /* width: 100px; */
+ margin-left: 50px;
+    margin-right: 50px;
     margin-bottom: 50px;
+    
 }
-
-.sidebar .closeBtn button {
-    width: 100%;
-    padding: 10px;
-    cursor: pointer;
-    user-select: none;
-}
-
 
 .sidebar table {
     border-collapse: separate;

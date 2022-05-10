@@ -44,6 +44,13 @@ import {
     GET_ALL_USERS_DEVICES_SUCCESS,
     TOGGLE_MAP_SIDEBAR,
 
+    CREATE_SUBSCRIPTION_BEGIN,
+    CREATE_SUBSCRIPTION_SUCCESS,
+    CREATE_SUBSCRIPTION_ERROR,
+    GET_SUBSCRIPTIONS_BEGIN,
+    GET_ALL_SUBSCRIPTIONS_SUCCESS,
+    DELETE_SUBSCRIPTION_BEGIN
+
 } from './actions'
 import { initialState } from './appContext'
 
@@ -216,6 +223,30 @@ const reducer = (state, action) => {
             ...initialState,
         }
     }
+    if (action.type === CREATE_SUBSCRIPTION_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        }
+    }
+    if (action.type === CREATE_SUBSCRIPTION_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "success",
+            alertText: "Subscribed!",
+        }
+    }
+    if (action.type === CREATE_SUBSCRIPTION_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "danger",
+            alertText: action.payload.msg,
+        }
+    }
     if (action.type === CREATE_DEVICE_BEGIN) {
         return {
             ...state,
@@ -280,6 +311,13 @@ const reducer = (state, action) => {
             numOfPages: action.payload.numOfPages,
         }
     }
+    if (action.type === GET_SUBSCRIPTIONS_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+            //showAlert: false
+        }
+    }
     if (action.type === GET_DEVICE_DATA_BEGIN) {
         return {
             ...state,
@@ -293,6 +331,15 @@ const reducer = (state, action) => {
             isLoading: false,
             detailMeasurements: action.payload.detailMeasurements,
             totalMeasurements: action.payload.totalMeasurements,
+            numOfPages: action.payload.numOfPages,
+        }
+    }
+    if (action.type === GET_ALL_SUBSCRIPTIONS_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            allSubscriptions: action.payload.allSubscriptions,
+            totalSubscriptions: action.payload.totalSubscriptions,
             numOfPages: action.payload.numOfPages,
         }
     }
@@ -345,6 +392,12 @@ const reducer = (state, action) => {
             isLoading: true,
         }
     }
+    if (action.type === DELETE_SUBSCRIPTION_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        }
+    }
     if (action.type === EDIT_DEVICE_BEGIN) {
         return {
             ...state,
@@ -390,6 +443,7 @@ const reducer = (state, action) => {
             searchName: "",
             searchStatus: "all",
             sort: "latest",
+            sortSubscription: 'a-z'
         }
     }
     if (action.type === CHANGE_PAGE) {
@@ -407,7 +461,7 @@ const reducer = (state, action) => {
     if (action.type === SET_SORT_OPTION) {
         return {
             ...state,
-            sort: "latest"
+            sort: "latest",
         }
     }
     throw new Error(`no such action: ${action.type}`)

@@ -5,6 +5,10 @@ import {
     getAllUsersDevices,
 } from '../controllers/sensorsController.js'
 
-router.route('/').get(getAllUsersDevices)
+import {
+    createSubscription,
+} from '../controllers/subscriptionController.js'
+
+router.route('/').get(getAllUsersDevices).post(createSubscription)
 
 export default router

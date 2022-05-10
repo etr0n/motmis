@@ -11,6 +11,7 @@ import morgan from 'morgan'
 import authRouter from './routes/authRoutes.js'
 import sensorsRouter from './routes/sensorsRoutes.js'
 import mapRouter from './routes/mapRoutes.js'
+import subscriptionRouter from './routes/subscriptionRoutes.js'
 
 //middleware
 import notFoundMiddleware from './middleware/not-found.js'
@@ -36,13 +37,12 @@ app.get('/api/v1', (req, res) => {
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/map', mapRouter)
 app.use('/api/v1/devices', authenticateUser, sensorsRouter)
-//subscriptions: app.use('/api/v1/subscriptions', authenticateUser, subscriptionsRouter)
+app.use('/api/v1/subscriptions', authenticateUser, subscriptionRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
 const port = process.env.PORT || 5000
-
 
 const start = async () => {
     try {

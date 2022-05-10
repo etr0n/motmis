@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.section`
+
 .map-container {
    width: 100vw;
-    height: 89.8vh;
+    height: 89vh;
     overflow: hidden;
+    margin-top: 3.5px
   }
 
   .enable-map-click{
@@ -24,7 +26,6 @@ const Wrapper = styled.section`
     top: 850px;
     left: -1px;
     margin: 12px;
-    border-radius: 4px;
     }
 
 
